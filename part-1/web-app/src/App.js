@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+
 import './App.css';
+import React, { useState, useEffect } from 'react';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
+import Messenger from './Messenger';
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
 function App() {
+  
+  var [user, setUser] = useState(0);
+  setUser = ()=>{
+    console.log("Trying update user info.")
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        {/* TODO: index ("/") path should be point to message board, which link back to login form if user not login. */}
+        <Route path="/" element={<Messenger/>}/>
+        <Route path="/login" element={<LoginForm updateCallback={setUser}/>}/> 
+        <Route path="/register" element={<RegisterForm updateCallback={setUser}/>}/>
+      </Routes>
     </div>
   );
 }
