@@ -4,11 +4,19 @@ import './RegisterForm.css';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Routes, Route, Link } from "react-router-dom";
 
-function RegisterForm(updateCallback) {
+function RegisterForm({setUser}) {
 
     function tryRegister(e){
         e.preventDefault();
         console.log("Try to register")
+        // TODO: try to add new user with given form.
+        // Idealy call server, give it the new info, if success tell user to login, if not, tell him what the issue is.
+        // For now, it all local, so we check if there is place in an array of users, and if so, place in new user there.
+        // In success, send the user to login form.
+
+        // just checking if I get access to change app's prop (user).
+        // probably won't need it here..
+        setUser("hello world")
     }
   return (
     <Container className="col-12 col-sm-9 col-lg-6  Panel">

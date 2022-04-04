@@ -3,10 +3,17 @@ import './LoginForm.css';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Routes, Route, Link } from "react-router-dom";
 
-function LoginForm() {
+function LoginForm({setUser}) {
     function tryLogin(e){
         e.preventDefault();
         console.log("Try to login")
+        // TODO: get login info from form, then check if user exist and if the password is right.
+        // if it does, save the user data (id, ...) locally and move to messenger view.
+        // else, tell user that the login isn't right.
+
+        // just checking if I get access to change app's prop (user).
+        // probably will update from here by calling App's setter to change its local member for user.
+        setUser("Hello world")
     }
   return (
     <Container className="col-12 col-sm-9 col-lg-6  Panel">

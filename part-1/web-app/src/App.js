@@ -8,17 +8,17 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
 function App() {
   
-  var [user, setUser] = useState(0);
-  setUser = ()=>{
-    console.log("Trying update user info.")
+  var [user, setUser] = useState(null);
+  setUser = (name)=>{
+    console.log("Trying update user info. : " + name)
   };
   return (
     <div className="App">
       <Routes>
         {/* TODO: index ("/") path should be point to message board, which link back to login form if user not login. */}
         <Route path="/" element={<Messenger/>}/>
-        <Route path="/login" element={<LoginForm updateCallback={setUser}/>}/> 
-        <Route path="/register" element={<RegisterForm updateCallback={setUser}/>}/>
+        <Route path="/login" element={<LoginForm setUser={setUser}/>}/> 
+        <Route path="/register" element={<RegisterForm setUser={setUser}/>}/>
       </Routes>
     </div>
   );
