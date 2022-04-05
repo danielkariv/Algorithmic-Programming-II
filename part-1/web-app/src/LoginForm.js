@@ -1,33 +1,45 @@
 
 import './LoginForm.css';
+import React, { useState, useEffect } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
-function LoginForm({setUser}) {
-    function tryLogin(e){
-        e.preventDefault();
-        console.log("Try to login")
-        // TODO: get login info from form, then check if user exist and if the password is right.
-        // if it does, save the user data (id, ...) locally and move to messenger view.
-        // else, tell user that the login isn't right.
+function LoginForm({usersDB,setUser}) {
+    const navigate = useNavigate();
+    // maybe use a single state for this (user={email:..., password:...})
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
+    function onSubmitForm(e){
+        e.preventDefault(); // prevent default logic.
+        // TODO: validate given inputs.
+        var userData = usersDB.find(e => e.email === email && e.password === password )
+        if (userData != null) {
+            // if it works, userData has all the data on this user, we would save it for later app usage.
+            console.log("I AM IN!! ", userData.displayName)
+            setUser(userData)
 
-        // just checking if I get access to change app's prop (user).
-        // probably will update from here by calling App's setter to change its local member for user.
-        setUser("Hello world")
+            navigate('/');
+        }
+        else{
+            // failed to login (wrong password or user just not exist..)
+            // TODO: show error message in the Login Form (lower to submit button?).
+            console.log("Failed to login, wrong email/password!")
+        }
+        // TODO: add error information to form, so we can report what is wrong.
     }
   return (
     <Container className="col-12 col-sm-9 col-lg-6  Panel">
-        <Form className="col-xl-10 mx-auto" onSubmit={tryLogin}>
+        <Form className="col-xl-10 mx-auto" onSubmit={onSubmitForm}>
             <Form.Group controlId='formEmail'>
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type='email' placeholder='Enter email'/>
+                <Form.Control type='email' placeholder='Enter email' value={email} onChange={(e)=>{setEmail(e.target.value)}} />
                 <Form.Text>
                     Place enter the email you register with to the service. 
                 </Form.Text>
             </Form.Group>
             <Form.Group controlId='formPassword'>
                 <Form.Label>Password</Form.Label>
-                <Form.Control type='password' placeholder='Password'/>
+                <Form.Control type='password' placeholder='Password' value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
                 <Form.Text>
                     Don't share your password with strangers, silly.
                 </Form.Text>

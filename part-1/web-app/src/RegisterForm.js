@@ -1,43 +1,52 @@
 
 import './App.css';
 import './RegisterForm.css';
+import React, { useState, useEffect } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
-function RegisterForm({setUser}) {
+function RegisterForm({usersDB}) {
+    const navigate = useNavigate();
 
-    function tryRegister(e){
-        e.preventDefault();
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
+    const [displayName,setDisplayName] = useState("")
+    function onSubmitForm(e){
+        e.preventDefault(); // prevent default logic.
         console.log("Try to register")
-        // TODO: try to add new user with given form.
-        // Idealy call server, give it the new info, if success tell user to login, if not, tell him what the issue is.
-        // For now, it all local, so we check if there is place in an array of users, and if so, place in new user there.
-        // In success, send the user to login form.
-
-        // just checking if I get access to change app's prop (user).
-        // probably won't need it here..
-        setUser("hello world")
+        // TODO: validate given inputs.
+        var userData = usersDB.find(e => e.email === email)
+        if (userData == null) {
+            // there isn't any user with given email so we can register him.
+            usersDB.push({email,password,displayName})
+            navigate('/');
+        }
+        else{
+            // failed to register( user exists with given email)
+            console.log("Failed to register, email is already in use.")
+        }
+         // TODO: add error information to form, so we can report what is wrong.
     }
   return (
     <Container className="col-12 col-sm-9 col-lg-6  Panel">
-        <Form className="col-xl-10 mx-auto" onSubmit={tryRegister}>
+        <Form className="col-xl-10 mx-auto" onSubmit={onSubmitForm}>
             <Form.Group controlId='formEmail'>
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type='email' placeholder='Enter email'/>
+                <Form.Control type='email' placeholder='Enter email'  value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
                 <Form.Text>
                     Enter your email you wish to use in this service.
                 </Form.Text>
             </Form.Group>
             <Form.Group controlId='formPassword'>
                 <Form.Label>Password</Form.Label>
-                <Form.Control type='password' placeholder='Password'/>
+                <Form.Control type='password' placeholder='Password'  value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
                 <Form.Text>
                     Pick strong password and don't share it with strangers.
                 </Form.Text>
             </Form.Group>
             <Form.Group controlId='formDisplayName'>
                 <Form.Label>Display Name</Form.Label>
-                <Form.Control type='text' placeholder='Display Name'/>
+                <Form.Control type='text' placeholder='Display Name'  value={displayName} onChange={(e)=>{setDisplayName(e.target.value)}}/>
                 <Form.Text>
                     Display name will showed to others, so pick a nice name.
                 </Form.Text>
