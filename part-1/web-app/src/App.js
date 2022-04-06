@@ -12,15 +12,15 @@ function App() {
   const [user, setUser] = useState(null);
 
   // hardcoded user database (will be replaced when we add backend server)
-  var usersDB = [{email:"user@mail.com",password:"1234", displayName:"User"},
-                  {email:"bot@mail.com",password:"botbot", displayName:"Bot"},
-                  {email:"daniel@mail.com",password:"abc123", displayName:"Daniel"},
-                  {email:"admin@mail.com",password:"admin", displayName:"Admin"},
-                  {email:"yoshi@yahoo.com",password:"Woooo!", displayName:"Yoshi"},]
+  var usersDB = [{username:"user",password:"1234", displayName:"User",image:"/favicon.ico"},
+                  {username:"bot",password:"botbot", displayName:"Bot",image:"/favicon.ico"},
+                  {username:"daniel",password:"abc123", displayName:"Daniel",image:"/favicon.ico"},
+                  {username:"admin",password:"admin", displayName:"Admin",image:"/favicon.ico"},
+                  {username:"yoshi",password:"Woooo!", displayName:"Yoshi",image:"/favicon.ico"},]
   // hardcoded messages database (will be replaced when we add backend server)
   // Notice: I wrote it in code, so I pretty sure the timestamp isn't right.
-  var messagesDB = [{from:"user@mail.com",to:"bot@mail.com",type:"msg",content:"Hello bot!", timestamp:"123"},
-                    {from:"bot@mail.com",to:"user@mail.com",type:"msg",content:"HELLO USER BEEP BOOP!", timestamp:"234"},
+  var messagesDB = [{from:"user",to:"bot",type:"msg",content:"Hello bot!", timestamp:"123"},
+                    {from:"bot",to:"user",type:"msg",content:"HELLO USER BEEP BOOP!", timestamp:"234"},
                     // {from:"",to:"",type:"",content:"", timestamp:""},
                   ]
   return (
