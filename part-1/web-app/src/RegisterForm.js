@@ -20,12 +20,12 @@ function RegisterForm({usersDB}) {
         return /^[A-Za-z0-9]*$/.test(str);
     }
     function validateImage(){
-        return image != "";
+        return image !== "";
     }
     function onSubmitForm(e){
         e.preventDefault(); // prevent default logic.
         console.log("Try to register")
-        setFormValid(username.length>0 && validatePassword(password) && password == repeatPassword && displayName.length>0 && validateImage())
+        setFormValid(username.length>0 && validatePassword(password) && password === repeatPassword && displayName.length>0 && validateImage())
         if(isFormValid){
             var userData = usersDB.find(e => e.username === username)
             if (userData == null) {
@@ -64,7 +64,7 @@ function RegisterForm({usersDB}) {
                 <Form.Control type='password' placeholder='Password'  value={repeatPassword} onChange={(e)=>{setRepeatPassword(e.target.value); }}/>
                 <Form.Text>
                     Make sure to write the same password.
-                    { (password == repeatPassword) ? null : <p style={{color : "red"}}>Password isn't valid, make sure that contains only letters and digits.</p>}
+                    { (password === repeatPassword) ? null : <p style={{color : "red"}}>Password isn't valid, make sure that contains only letters and digits.</p>}
                 </Form.Text>
             </Form.Group>
             <Form.Group controlId='formDisplayName'>
@@ -74,20 +74,20 @@ function RegisterForm({usersDB}) {
                     Display name will showed to others, so pick a nice name.
                 </Form.Text>
             </Form.Group>
+            
             <Form.Group controlId='formImage'>
                 <Form.Label>Profile Image</Form.Label>
                 <Form.Control type='file' placeholder='Load image' value={image.value} onChange={(e)=>{setImage(URL.createObjectURL(e.target.files[0]))}}/>
                 <Form.Text>
-                    <Image fluid={true} src={image}/>
-                    <p>Doesn't work yet.</p>
+                {image === ""? null:<Image className="imagePreview" roundedCircle={true} thumbnail={true} fluid={true} src={image}/>}
                 </Form.Text>
-                
             </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-                { isFormValid ? null : <p style={{color : "red"}}>Form isn't valid, make sure all form fields are correct and filled.</p>}
-                <p className="text-justify font-italic"> Got an account already? <Link to='/login'>Click here</Link> to login.</p>
+
+            <Button variant="primary" type="submit">
+                Submit
+            </Button>
+            { isFormValid ? null : <p style={{color : "red"}}>Form isn't valid, make sure all form fields are correct and filled.</p>}
+            <p className="text-justify font-italic"> Got an account already? <Link to='/login'>Click here</Link> to login.</p>
             </Form>
     </Container>
   );

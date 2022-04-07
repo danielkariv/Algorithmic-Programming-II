@@ -3,6 +3,8 @@ html, body {
   margin: 0;
   height: 100%;
   background-image: linear-gradient(to bottom, #008849 20vh, rgb(203, 203, 203) 20vh, #efefef);
+  background-repeat: no-repeat;
+  background-color: #efefef;
 }
 
 
