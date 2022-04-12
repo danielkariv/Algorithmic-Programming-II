@@ -1,9 +1,15 @@
 
 import './App.css';
 import './RegisterForm.css';
+import './Messenger.css';
+import Chat from './Chat';
+import Chatbook from './Chatbook';
+import SendStuff from './SendStuff';
+
 import React, { useState, useEffect } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
+
 
 function Messenger({user}) {
 
@@ -22,9 +28,79 @@ function Messenger({user}) {
   // TODO: need to design the Messenger UI. afterword, we need to make the logic works.
   // Notice: messages information should be kept in App.js for now, when we will have a backend server, we will add it requests to the functions to recive it from there.
   return (
-    <Container className="col-12 col-sm-9 col-lg-6  Panel">
-    Hello world
-    </Container>
+       <div class="container">
+        
+     <table  class="Msg">
+       <thead>
+      
+       </thead>
+        <tbody >
+          <tr>
+            <td>
+            <table class="head">
+              <thead>
+
+              </thead>
+              <tbody>
+               <tr>
+                 <td className='User'>
+                   username
+                 </td>
+                 <td className='Add'>
+                   add
+                 </td>
+                 <td className='UserTosend'>
+                   user to add
+                 </td>
+               </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <table class="mid">
+              <thead>
+
+              </thead>
+              <tbody>
+              <tr>
+                 <td className='Chats'>
+                   <Chatbook />
+                 </td>
+                 
+                 <td className='Chat'>
+                  <Chat />
+                 </td>
+               </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <table class="end">
+              <thead>
+
+              </thead>
+              <tbody>
+              <tr>
+                 <td className='fill'>
+                   
+                 </td>
+                 
+                 <td className='send'>
+                  <SendStuff />
+                 </td>
+               </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+        </tbody>
+     </table>
+     </div>
+    
   );
 }
 
