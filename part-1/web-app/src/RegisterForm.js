@@ -27,7 +27,7 @@ function RegisterForm({usersDB}) {
     function onSubmitForm(e){
         e.preventDefault(); // prevent default logic.
         console.log("Try to register")
-        var isValid = username.length>0 && validatePassword(password) && password === repeatPassword && displayName.length>0 && validateImage()
+        var isValid = username.length>0 && validatePassword(password) && password === repeatPassword && password.length > 0 && repeatPassword.length > 0 && displayName.length>0 && validateImage()
         setFormValid(isValid)
         if(isValid){
             var userData = usersDB.find(e => e.username === username)
