@@ -9,13 +9,15 @@ import { Button, Col, Container, Form, ListGroup, ListGroupItem, Row } from 'rea
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
 
-function Messenger({user}) {
+function Messenger({user, usersDB, messagesDB}) {
 
     // used to send client to different views. ( use navigate('/SOMEWHERE') in logic to jump to localhost:3000/SOMEWHERE )
     const navigate = useNavigate();
     useEffect(() => {    
         validateUser();
     });
+
+    const [selectedUser, setSelectedUser] = useState(null);
 
     function validateUser(){
     // This suppose to check if user is saved as state.
@@ -31,11 +33,11 @@ function Messenger({user}) {
       <Row style={{height:"100%"}}>
       {/* Left Column (how we chat with, and option to add new user to list) */}
       <Col className="col-6">
-        <Chatbook />
+        <Chatbook setSelectedUser={setSelectedUser} messagesDB={messagesDB} usersDB={usersDB}/>
         
       </Col>
       <Col className="col-6">
-        <Chat />
+        <Chat selectedUser={selectedUser} user={user} messagesDB={messagesDB} usersDB={usersDB}/>
       </Col>
       </Row>
     </Container>

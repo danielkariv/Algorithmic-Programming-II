@@ -14,6 +14,8 @@ function RegisterForm({usersDB}) {
     const [displayName,setDisplayName] = useState("")
     const [image,setImage] = useState("")
     const [isFormValid,setFormValid] = useState(true)
+    const [isUsernameFree,setUsernameFree] = useState(true)
+
     function validatePassword (str){
         // check if contains only big/small letters or/and digits.
         // TODO: not sure if this is what we need to check here.
@@ -25,17 +27,20 @@ function RegisterForm({usersDB}) {
     function onSubmitForm(e){
         e.preventDefault(); // prevent default logic.
         console.log("Try to register")
-        setFormValid(username.length>0 && validatePassword(password) && password === repeatPassword && displayName.length>0 && validateImage())
-        if(isFormValid){
+        var isValid = username.length>0 && validatePassword(password) && password === repeatPassword && displayName.length>0 && validateImage()
+        setFormValid(isValid)
+        if(isValid){
             var userData = usersDB.find(e => e.username === username)
             if (userData == null) {
                 // there isn't any user with given email so we can register him.
+                setUsernameFree(true);
                 usersDB.push({username,password,displayName,image})
                 navigate('/');
             }
             else{
                 // failed to register( user exists with given email)
                 console.log("Failed to register, email is already in use.")
+                setUsernameFree(false);
             }
         } else
             console.log("Given inputs aren't valid (password don't match or isn't same as repeated one)")
@@ -49,6 +54,7 @@ function RegisterForm({usersDB}) {
                 <Form.Control type='text' placeholder='Enter username'  value={username} onChange={(e)=>{setUsername(e.target.value); }}/>
                 <Form.Text>
                     Enter the username you wish to use in this service.
+                    {(isUsernameFree === true)? null : <p style={{color : "red"}}>Selected username is already used. please choose a different one.</p>}
                 </Form.Text>
             </Form.Group>
             <Form.Group controlId='formPassword'>
@@ -65,7 +71,7 @@ function RegisterForm({usersDB}) {
                 <Form.Control type='password' placeholder='Password'  value={repeatPassword} onChange={(e)=>{setRepeatPassword(e.target.value); }}/>
                 <Form.Text>
                     Make sure to write the same password.
-                    { (password === repeatPassword) ? null : <p style={{color : "red"}}>Password isn't valid, make sure that contains only letters and digits.</p>}
+                    { (password === repeatPassword) ? null : <p style={{color : "red"}}>Repeated password isn't the same as password.</p>}
                 </Form.Text>
             </Form.Group>
             <Form.Group controlId='formDisplayName'>
