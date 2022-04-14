@@ -28,78 +28,36 @@ function Messenger({user}) {
   // TODO: need to design the Messenger UI. afterword, we need to make the logic works.
   // Notice: messages information should be kept in App.js for now, when we will have a backend server, we will add it requests to the functions to recive it from there.
   return (
-       <div class="container">
-        
-     <table  class="Msg">
-       <thead>
-      
-       </thead>
-        <tbody >
-          <tr>
-            <td>
-            <table class="head">
-              <thead>
-
-              </thead>
-              <tbody>
-               <tr>
-                 <td className='User'>
-                   username
-                 </td>
-                 <td className='Add'>
-                   add
-                 </td>
-                 <td className='UserTosend'>
-                   user to add
-                 </td>
-               </tr>
-              </tbody>
-            </table>
-            </td>
-          </tr>
-          <tr>
-            <td>
-            <table class="mid">
-              <thead>
-
-              </thead>
-              <tbody>
-              <tr>
-                 <td className='Chats'>
-                   <Chatbook />
-                 </td>
-                 
-                 <td className='Chat'>
-                  <Chat />
-                 </td>
-               </tr>
-              </tbody>
-            </table>
-            </td>
-          </tr>
-          <tr>
-            <td>
-            <table class="end">
-              <thead>
-
-              </thead>
-              <tbody>
-              <tr>
-                 <td className='fill'>
-                   
-                 </td>
-                 
-                 <td className='send'>
-                  <SendStuff />
-                 </td>
-               </tr>
-              </tbody>
-            </table>
-            </td>
-          </tr>
-        </tbody>
-     </table>
-     </div>
+      <Container style={{  width: "50%", height: "200px" ,marginTop: "5%", marginLeft: "auto",marginRight: "auto" ,textAlign: "left", }}>
+       <Row  className="h-10 rows">
+         <Col md ={5} lg={5} className="colum">
+         Name
+         </Col>
+         <Col   md ={1} lg={1} className="colum">
+           Add
+         </Col>
+         <Col  md ={6} lg={6} className="colum">
+           NametoChat
+         </Col>
+       </Row>
+       <Row className=" h-80 rows" style ={{height: "200px"}}>
+           <Col md ={6} lg={6} className="colum">
+           <Chatbook />
+           </Col>
+           <Col md ={6} lg={6} className="colum">
+           <Chat />
+           </Col>
+       </Row>
+       <Row  className="h-10 rows">
+       <Col md ={6} lg={6} className="colum">
+           
+            c
+            </Col>
+           <Col md ={6} lg={6} className="colum">
+             <SendStuff />
+           </Col>
+       </Row>
+      </Container>
     
   );
 }
