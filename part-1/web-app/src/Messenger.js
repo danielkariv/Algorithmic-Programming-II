@@ -1,13 +1,11 @@
 
 import './App.css';
-import './RegisterForm.css';
 import './Messenger.css';
 import Chat from './Chat';
 import Chatbook from './Chatbook';
-import SendStuff from './SendStuff';
 
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
 
@@ -28,37 +26,20 @@ function Messenger({user}) {
   // TODO: need to design the Messenger UI. afterword, we need to make the logic works.
   // Notice: messages information should be kept in App.js for now, when we will have a backend server, we will add it requests to the functions to recive it from there.
   return (
-      <Container style={{  width: "50%", height: "200px" ,marginTop: "5%", marginLeft: "auto",marginRight: "auto" ,textAlign: "left", }}>
-       <Row  className="h-10 rows">
-         <Col md ={5} lg={5} className="colum">
-         Name
-         </Col>
-         <Col   md ={1} lg={1} className="colum">
-           Add
-         </Col>
-         <Col  md ={6} lg={6} className="colum">
-           NametoChat
-         </Col>
-       </Row>
-       <Row className=" h-80 rows" style ={{height: "200px"}}>
-           <Col md ={6} lg={6} className="colum">
-           <Chatbook />
-           </Col>
-           <Col md ={6} lg={6} className="colum">
-           <Chat />
-           </Col>
-       </Row>
-       <Row  className="h-10 rows">
-       <Col md ={6} lg={6} className="colum">
-           
-            c
-            </Col>
-           <Col md ={6} lg={6} className="colum">
-             <SendStuff />
-           </Col>
-       </Row>
-      </Container>
-    
+    <Container className="MessengerWindowPadding">
+    <Container className="col-10 MessengerWindow" fluid>
+      <Row style={{height:"100%"}}>
+      {/* Left Column (how we chat with, and option to add new user to list) */}
+      <Col className="col-6">
+        <Chatbook />
+        
+      </Col>
+      <Col className="col-6">
+        <Chat />
+      </Col>
+      </Row>
+    </Container>
+</Container>
   );
 }
 

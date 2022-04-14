@@ -6,18 +6,25 @@ html, body {
   background-repeat: no-repeat;
   background-color: #efefef;
 }
-
+#root {
+  height: 100%;
+}
 
 .App {
   margin: 0;
   height: 100%;
-  padding: 4rem 0.25rem 0.25rem 0.25rem;
   text-align: center;
 }
 
 .Panel{
+  padding: 4rem 0.25rem 3.25rem 0.25rem;
   text-align: center;
   background: #f7f8f9;
   padding: 3rem;
   max-width: 800px;
+
+}
+.AroundPanelPadding{
+  padding: 3rem;
+  height: auto;
 }

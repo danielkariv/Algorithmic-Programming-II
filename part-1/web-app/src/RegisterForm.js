@@ -41,6 +41,7 @@ function RegisterForm({usersDB}) {
             console.log("Given inputs aren't valid (password don't match or isn't same as repeated one)")
     }
   return (
+      <Container className="AroundPanelPadding">
     <Container className="col-12 col-sm-9 col-lg-6  Panel">
         <Form className="col-xl-10 mx-auto" onSubmit={onSubmitForm}>
             <Form.Group controlId='formEmail'>
@@ -89,6 +90,7 @@ function RegisterForm({usersDB}) {
             { isFormValid ? null : <p style={{color : "red"}}>Form isn't valid, make sure all form fields are correct and filled.</p>}
             <p className="text-justify font-italic"> Got an account already? <Link to='/login'>Click here</Link> to login.</p>
             </Form>
+    </Container>
     </Container>
   );
 }

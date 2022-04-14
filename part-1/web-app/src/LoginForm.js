@@ -36,6 +36,7 @@ function LoginForm({usersDB,setUser}) {
         }
     }
   return (
+    <Container className="AroundPanelPadding">
     <Container className="col-12 col-sm-9 col-lg-6  Panel">
         <Form className="col-xl-10 mx-auto" onSubmit={onSubmitForm}>
             <Form.Group controlId='formEmail'>
@@ -59,6 +60,7 @@ function LoginForm({usersDB,setUser}) {
                 
             <p className="text-justify font-italic"> Not registered? No problem, <Link to='/register'>Click here</Link> to register and join our community</p>
         </Form>
+    </Container>
     </Container>
   );
 }
