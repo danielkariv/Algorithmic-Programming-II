@@ -1,0 +1,30 @@
+.stam {
+    height: 75px;
+  }
+.stam:hover
+{
+    background: #eee7e7f1;
+}
+
+
+
+.user-pic img {
+    
+    border-radius: 50%;
+    height: 49px;
+    width: 49px;
+  }
+.namespace
+{
+    height: 70%;
+    text-align: left;
+    font-size: 30px;
+}
+.msgspace
+{
+    height: 30%;
+    text-align: left;
+    top: auto;
+    font-size: 10px;
+    color: #0000007c;
+}
