@@ -81,7 +81,7 @@ function Chat({user, selectedUser, messagesDB})
                 <Col className={cname}>
                   <div class={dname}>
                   <div class="message-text">
-                  {(bookitem.type==="msg")? content : ((bookitem.type==="img")? <img class="pic" src={window.location.origin + content} onClick={()=>{ setmsgkind("img");setButtonPopup(true); setImgsrc(content)}} ></img>: ((bookitem.type==="aud")? <audio controls> <source src={window.location.origin + content} type="audio/mpeg"/></audio> :((bookitem.type==="vid")? <img class="pic" src={window.location.origin + "/pic/vidpic.png"} onClick={()=>{ setmsgkind("vid");setButtonPopup(true); setImgsrc(content)}} ></img>: "") )) }
+                  {(bookitem.type==="msg")? content : ((bookitem.type==="img")? <img class="pic" src={content} onClick={()=>{ setmsgkind("img");setButtonPopup(true); setImgsrc(content)}} ></img>: ((bookitem.type==="aud")? <audio controls> <source src={content} type="audio/mpeg"/></audio> :((bookitem.type==="vid")? <img class="pic" src={"http://localhost:3000/pic/vidpic.png"} onClick={()=>{ setmsgkind("vid");setButtonPopup(true); setImgsrc(content)}} ></img>: "") )) }
                    </div>
                    <span class="message-time pull-right">{time}</span>
                    </div>

@@ -84,7 +84,7 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
       return (
               <Row className="stam" style={{height:"100 px"}} onClick={() => Click(name)}>
                 <Col  className=" user-pic col-3" style={{}}>
-                  <Image src={window.location.origin + usertosend.image} >
+                  <Image src={usertosend.image} >
 
                   </Image>
                 </Col>
@@ -92,7 +92,7 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
                  <Container>
                  <Row> 
                    <Col className="namespace">                   
-                    {name}
+                    {usertosend.displayName}
                     </Col> 
                     </Row>
                     <Row>
@@ -116,12 +116,14 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
        <Row>
        <Form>
          <Row>
-           <Col className='col-8'>
-             <Form.Group  controlId="formUsername">
-               <Form.Control type="text" placeholder="username" />
-             </Form.Group>
+         <Col className='user-pic col-3'>
+           
+         <img src={user.image}></img> 
            </Col>
-           <Col className='col-4'>
+           <Col className='col-6'>
+             {user.displayName}
+           </Col>
+           <Col className='col-3'>
              <Button variant="primary" type="submit">
                Add
              </Button>
