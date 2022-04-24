@@ -1,9 +1,7 @@
  import './Chatbook.css';
-import './pic/pic1.jpg';
-import { Container,Row,Form,Col,Button,ListGroup,ListGroupItem ,Image } from "react-bootstrap";
+import { Container,Row,Form,Col,Button ,Image } from "react-bootstrap";
 
 import React, { useState, useEffect } from 'react';
-import { click } from '@testing-library/user-event/dist/click';
 
 function TwoDigits(temp)
 {
@@ -27,15 +25,15 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
     */
    //Will be the username string
       var username="";
-   if (user != null)
+   if (user !== null)
     username= user.username;
    //Will hold the masseges with the user
    var usermessagesDB=[];
    
    for ( var msg of messagesDB)
    {
-     if (username.length !=0)
-     if (msg.from == username || msg.to ==username)
+     if (username.length !==0)
+     if (msg.from === username || msg.to ===username)
       usermessagesDB.push(msg);
    }
    //will hold the the masseges sorted by date
@@ -50,7 +48,7 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
        var con =true;
     for (var i of chatbooklist)
     {
-      if ((msg.from != username && (msg.from == i.from|| msg.from == i.to) )|| (msg.to != username && (msg.to == i.from|| msg.to == i.to)))
+      if ((msg.from !== username && (msg.from === i.from|| msg.from === i.to) )|| (msg.to !== username && (msg.to === i.from|| msg.to === i.to)))
       con=false;
     }
      if (con)   
@@ -59,7 +57,7 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
    function Click(v)
    {
      for (var user of usersDB)
-      if(user.username ==v)
+      if(user.username ===v)
       setSelectedUser(user);
    }
  
@@ -70,16 +68,16 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
         var time;
         var usertosend=[];
         for (var user of usersDB)
-        if(user.username ==name)
+        if(user.username ===name)
         usertosend=user;
          time= TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
-        if (bookitem.type =="msg")
+        if (bookitem.type ==="msg")
         content=bookitem.content;
-        else if (bookitem.type =="img")
+        else if (bookitem.type ==="img")
         content="image";
-        else if (bookitem.type =="vid")
+        else if (bookitem.type ==="vid")
         content="video";
-        else if (bookitem.type =="aud")
+        else if (bookitem.type ==="aud")
         content="audio";
       return (
               <Row className="stam" style={{height:"100 px"}} onClick={() => Click(name)}>

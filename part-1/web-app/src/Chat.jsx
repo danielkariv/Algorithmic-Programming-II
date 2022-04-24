@@ -2,7 +2,7 @@
 import './Chat.css';
 import Popup from './Popup';
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button, Stack ,Image} from "react-bootstrap";
+import { Container, Row, Col, Form, Button} from "react-bootstrap";
 
 function TwoDigits(temp)
 {
@@ -33,17 +33,17 @@ function Chat({user, selectedUser, messagesDB})
       var username="";
       var selectedname="";
      
-      if (user != null)
+      if (user !== null)
        username= user.username;
-       if (selectedUser != null)
+       if (selectedUser !== null)
        selectedname= selectedUser.username;
       //Will hold the masseges with the user
       var usermessagesDB=[];
       
       for ( var msg of messagesDB)
       {
-        if (username.length !=0)
-        if ((msg.from == username && msg.to ==selectedname)|| (msg.to == username && msg.from ==selectedname))
+        if (username.length !==0)
+        if ((msg.from === username && msg.to ===selectedname)|| (msg.to === username && msg.from ===selectedname))
          usermessagesDB.push(msg);
       }
       //will hold the the masseges sorted by date
@@ -62,13 +62,13 @@ function Chat({user, selectedUser, messagesDB})
         (bookitem.from === username)?dname="sender" :dname="receiver";
           if (msg)
          time= TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
-        if (bookitem.type =="msg")
+        if (bookitem.type ==="msg")
         {
         content=bookitem.content;
        
   
         }
-        else if (bookitem.type =="img" ||bookitem.type =="aud" ||bookitem.type =="vid")
+        else if (bookitem.type ==="img" ||bookitem.type ==="aud" ||bookitem.type ==="vid")
         {
             content= bookitem.content;
                   path="\""+content+"\"";
