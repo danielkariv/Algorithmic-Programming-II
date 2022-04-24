@@ -10,7 +10,7 @@ function Popup(props)
                 <button type="button"  class="btn-close btn-close-black" aria-label="Close" onClick={() => {props.setTrigger(false)}}></button>
                 <br/>
                 {props.children}
-                {(props.kind== "img") ? <img  src={window.location.origin + props.imgsrc} ></img>: ((props.kind== "vid")? <video width="400" controls > <source src={window.location.origin + props.imgsrc} /></video>  :"")}
+                {(props.kind== "img") ? <img  src={props.imgsrc} ></img>: ((props.kind== "vid")? <video width="400" controls > <source src={props.imgsrc} /></video>  :"")}
                 </div>
 
             </div>
