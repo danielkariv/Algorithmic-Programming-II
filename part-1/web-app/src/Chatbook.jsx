@@ -12,7 +12,7 @@ function TwoDigits(temp)
     return "0" +temp;
 
 }
-function Chatbook({user, setSelectedUser, usersDB, messagesDB})
+function Chatbook({user, setSelectedUser, usersDB, messagesDB , updateInfo })
 {
   /* There is access to:
       - current user that has login.
@@ -27,6 +27,7 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
 
   
   const [bookitemlist,setBookitemlist] = useState([]);
+  const [usernameInput,setUsernameInput] = useState([]);
 
   function Click(v)
   {
@@ -123,19 +124,48 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
     }));
     // setting the state as list.
     setBookitemlist(list);
-  },[user]);
+  },[user,updateInfo]);
 
+  function onSubmitUsername(e){
+    e.preventDefault(); // prevent default logic.
+
+    console.log("try to select new user to chat with")
+    if(usernameInput.length > 0){
+      if (usernameInput === user.username){
+        console.log("try to speak with yourself")
+        return;
+      }
+      var userData = usersDB.find(e => e.username === usernameInput)
+        if (userData != null) {
+            // if it works, userData has all the data on this user, we would save it for later app usage.
+            setSelectedUser(userData)
+            setUsernameInput("");
+        }else{
+          console.log("couldn't find user in database");
+        }
+    }else{
+      console.log("empty input in username field");
+    }
+  }
   return (
     <Container className="d-flex flex-column" style={{height:"100%", maxHeight:"100%"}}>
        {/* Row of input */}
+      
+     <Row>
+        <Col className='user-pic col-3'> 
+          {(user !== null)?<img src={user.image}></img>:null }
+        </Col>
+        <Col className='col-6'>
+        {(user !== null)?<h6 className=' text-truncate'>{user.displayName}</h6>:null }
+        </Col>
+      </Row>
       <Row>
-       <Form>
-        <Row>
-          <Col className='user-pic col-3'> 
-            {(user !== null)?<img src={user.image}></img>:null }
-          </Col>
-          <Col className='col-6'>
-          {(user !== null)?<h6 className=' text-truncate'>{user.displayName}</h6>:null }
+       <Form onSubmit={onSubmitUsername}>
+          <Row>
+          <Col className='col-9'>
+            <Form.Group controlId="formInputUsername">
+              <Form.Control type="text" placeholder="Enter username ... " value={usernameInput} onChange={(e)=>{setUsernameInput(e.target.value)}}/>
+            </Form.Group>
           </Col>
           <Col className='col-3'>
             <Button variant="primary" type="submit">

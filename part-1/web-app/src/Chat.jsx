@@ -14,13 +14,15 @@ function TwoDigits(temp)
 
 }
 
-function Chat({user, selectedUser, messagesDB})
+function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
 {
   //will be use in the popup
   const [buttonPopup,setButtonPopup]=useState(false);
   const [imgsrc,setImgsrc]=useState("");
   const [msgkind,setmsgkind]=useState("");
   const [msgitems,setMsgitems] = useState([]);
+  const [messageInput,setMessageInput] = useState("");
+  const [fileURL,setFileURL] = useState("");
     /* There is access to:
         - current user that has login.
         - selected user that was selected from Chatbook.
@@ -95,9 +97,55 @@ function Chat({user, selectedUser, messagesDB})
               </Col>
             </Row>);
     }));
-  },[selectedUser]);
+  },[selectedUser,updateInfo]);
       
-  
+  function onSubmitMessage(e){
+    e.preventDefault(); // prevent default logic.
+    // if we loaded a file.
+    if(e.target.files !== undefined){
+      if (e.target.files[0] !== null){
+      console.log(e.target.files[0]);
+      var type = "error"
+      // accept="image/*,video/*,audio/*"
+      if(e.target.files[0].type.split('/')[0] === "audio")
+        type = "aud";
+      else if (e.target.files[0].type.split('/')[0] === "video")
+        type = "vid"
+      else if  (e.target.files[0].type.split('/')[0] === "image")
+        type = "img"
+      var content = URL.createObjectURL(e.target.files[0]);
+      username = user.username;
+      selectedname = selectedUser.username;
+      
+      var msg = {
+        from:username,
+        to:selectedname,
+        type:type,
+        content:content,
+        timestamp:new Date(),
+      }
+      messagesDB.push(msg);
+      // working, need to trigger an update ( using external prop).
+      setUpdateInfo(!updateInfo);
+      }
+    }
+    else if (messageInput.length > 0){
+      username = user.username;
+      selectedname = selectedUser.username;
+      
+      var msg = {
+        from:username,
+        to:selectedname,
+        type:"msg",
+        content:messageInput,
+        timestamp:new Date(),
+      }
+      messagesDB.push(msg);
+      setMessageInput("");
+      // working, need to trigger an update ( using external prop).
+      setUpdateInfo(!updateInfo);
+    }
+  }
     return (
       <>
        <Container className="d-flex flex-column" style={{height:"100%",padding:"0px"}}>
@@ -119,30 +167,32 @@ function Chat({user, selectedUser, messagesDB})
            </Row>
            {/* Input bar for message, image, video or audio.*/}
            <Row style={{minHeight:"3rem",maxHeight:"3rem"}}>
-           <Form>
-                <Row>
+            <Col>
+              <Form onSubmit={onSubmitMessage}>
+                <Row> 
                 <Col className='col-2'>
-                    <Button variant="primary" type="submit">
-                    File
-                    </Button>
+                <Form.Group  controlId="formInputFile">
+                  <Form.Control type='file' placeholder='' value={fileURL.value} accept="image/*,video/*,audio/*" onChange={(e)=>{setFileURL(URL.createObjectURL(e.target.files[0])); onSubmitMessage(e);} }/>
+                </Form.Group>
                 </Col>
-                <Col className='col-8'>
+                  <Col className='col-8'>
                     <Form.Group  controlId="formInputMessage">
-                    <Form.Control type="text" placeholder="Enter text ... " />
+                    <Form.Control type="text" placeholder="Enter text ... " value={messageInput} onChange={(e)=>{setMessageInput(e.target.value)}}/>
                     </Form.Group>
-                </Col>
-                <Col className='col-2'>
+                  </Col>
+                  <Col className='col-2'>
                     <Button variant="primary" type="submit">
-                    Add
+                    Send
                     </Button>
-                </Col>
+                  </Col>
                 </Row>
-            </Form>
+              </Form>
+            </Col>
            </Row>
        </Container>
-         <Popup triggerd={buttonPopup} setTrigger={setButtonPopup} kind={msgkind} imgsrc={imgsrc}>
+        <Popup triggerd={buttonPopup} setTrigger={setButtonPopup} kind={msgkind} imgsrc={imgsrc}>
         
-      </Popup>
+        </Popup>
       </>
         );
 }
