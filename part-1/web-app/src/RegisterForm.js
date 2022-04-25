@@ -50,7 +50,7 @@ function RegisterForm({usersDB}) {
     <Container className="col-12 col-sm-9 col-lg-6  Panel">
         <Form className="col-xl-10 mx-auto" onSubmit={onSubmitForm}>
             <Form.Group controlId='formEmail'>
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>Username</Form.Label>
                 <Form.Control type='text' placeholder='Enter username'  value={username} onChange={(e)=>{setUsername(e.target.value); }}/>
                 <Form.Text>
                     Enter the username you wish to use in this service.
