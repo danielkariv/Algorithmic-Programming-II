@@ -2,7 +2,7 @@
 import './Chat.css';
 import Popup from './Popup';
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button} from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Stack ,Image} from "react-bootstrap";
 
 function TwoDigits(temp)
 {
@@ -20,7 +20,6 @@ function Chat({user, selectedUser, messagesDB})
   const [buttonPopup,setButtonPopup]=useState(false);
   const [imgsrc,setImgsrc]=useState("");
   const [msgkind,setmsgkind]=useState("");
-  const [msgitems,setMsgitems] = useState([]);
     /* There is access to:
         - current user that has login.
         - selected user that was selected from Chatbook.
@@ -31,73 +30,68 @@ function Chat({user, selectedUser, messagesDB})
     */
 
         //Will be the username string
-  var username="";
-  var selectedname="";
-  var msgitem =[];
-  // useEffect is depends on user,selectedUser props, so it only updates when those two updates.
-  useEffect(() => {    
-    // edgecase, we already have user login and selected another user, we need to make that we treat only new chat selection.
-   
-    if(user !== null && selectedUser !== null)
-      if (username == user.username && selectedname == selectedUser.username)
-        return;
-      else{
-        username = user.username;
-        selectedname = selectedUser.username;
-      }
-    else
-      return;
-    
-    // next, we want to find all related messages from or to our user.
-    var usermessagesDB=[];
-    for ( var msg of messagesDB)
-    {
-      if (username.length !=0)
-      if ((msg.from == username && msg.to ==selectedname)|| (msg.to == username && msg.from ==selectedname))
-       usermessagesDB.push(msg);
-    }
-    // we sorting the messages based on date.
-    var sortedusermessagesDB= usermessagesDB.sort(function(a,b){return new Date(b.timestamp)-new Date(a.timestamp)});
-    // run on each messages and decide how to display it.
-    setMsgitems(sortedusermessagesDB.map((bookitem,key) =>{
-      var name= "";
-      (bookitem.from === username)?name=bookitem.to :name=bookitem.from;
-      var content="";
-      var time;
-      var cname="";
-      var dname="";
-      var path="";
-      //cheking if the massege was sent
-      (bookitem.from === username)?cname="message-main-sender" :cname="message-main-receiver";
-      (bookitem.from === username)?dname="sender" :dname="receiver";
-      if (msg)
-        time = TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
-      // check which type of message, to handle his information correct.
-      if (bookitem.type ==="msg")
-      {
-        content=bookitem.content;
-      }
-      else if (bookitem.type ==="img" ||bookitem.type ==="aud" ||bookitem.type ==="vid")
-      {
-        content= bookitem.content;
-        path="\""+content+"\"";
-      }
-      // return the render of message by his type.
-      return (
-            <Row className='message-body' style={{height:"100 px"}} >
-              <Col className={cname}>
-                <div className={dname}>
-                  <div className="message-text">
-                    {(bookitem.type==="msg")? content : ((bookitem.type==="img")? <img className="pic" src={content} onClick={()=>{ setmsgkind("img");setButtonPopup(true); setImgsrc(content)}} ></img>: ((bookitem.type==="aud")? <audio controls> <source src={content} type="audio/mpeg"/></audio> :((bookitem.type==="vid")? <img className="pic" src={"http://localhost:3000/pic/vidpic.png"} onClick={()=>{ setmsgkind("vid");setButtonPopup(true); setImgsrc(content)}} ></img>: "") )) }
-                  </div>
-                  <span className="message-time pull-right">{time}</span>
-                </div>
-              </Col>
-            </Row>);
-    }));
-  },[selectedUser]);
+      var username="";
+      var selectedname="";
+     
+      if (user != null)
+       username= user.username;
+       if (selectedUser != null)
+       selectedname= selectedUser.username;
+      //Will hold the masseges with the user
+      var usermessagesDB=[];
       
+      for ( var msg of messagesDB)
+      {
+        if (username.length !=0)
+        if ((msg.from == username && msg.to ==selectedname)|| (msg.to == username && msg.from ==selectedname))
+         usermessagesDB.push(msg);
+      }
+      //will hold the the masseges sorted by date
+      var sortedusermessagesDB= usermessagesDB.sort(function(a,b){return new Date(b.timestamp)-new Date(a.timestamp)});
+      
+      const msgitem=sortedusermessagesDB.map((bookitem,key) =>{
+        var name= "";
+        (bookitem.from === username)?name=bookitem.to :name=bookitem.from;
+        var content="";
+        var time;
+        var cname="";
+        var dname="";
+        var path="";
+        //cheking if the massege was sent
+        (bookitem.from === username)?cname="message-main-sender" :cname="message-main-receiver";
+        (bookitem.from === username)?dname="sender" :dname="receiver";
+          if (msg)
+         time= TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
+        if (bookitem.type =="msg")
+        {
+        content=bookitem.content;
+       
   
+        }
+        else if (bookitem.type =="img" ||bookitem.type =="aud" ||bookitem.type =="vid")
+        {
+            content= bookitem.content;
+                  path="\""+content+"\"";
+                  
+            
+        }
+       
+      return (
+              <Row className='message-body' style={{height:"100 px"}} >
+                <Col className={cname}>
+                  <div class={dname}>
+                  <div class="message-text">
+                  {(bookitem.type==="msg")? content : ((bookitem.type==="img")? <img class="pic" src={content} onClick={()=>{ setmsgkind("img");setButtonPopup(true); setImgsrc(content)}} ></img>: ((bookitem.type==="aud")? <audio controls> <source src={content} type="audio/mpeg"/></audio> :((bookitem.type==="vid")? <img class="pic" src={"http://localhost:3000/pic/vidpic.png"} onClick={()=>{ setmsgkind("vid");setButtonPopup(true); setImgsrc(content)}} ></img>: "") )) }
+                   </div>
+                   <span class="message-time pull-right">{time}</span>
+                   </div>
+                </Col>
+               
+              </Row>
+      );
+        
+    });
+
     return (
       <>
        <Container className="d-flex flex-column" style={{height:"100%"}}>
@@ -114,7 +108,9 @@ function Chat({user, selectedUser, messagesDB})
                 TODO: make it strech to all avaiable height. */}
            <Row style={{"flexGrow" : "1"}}>
               <Container className='chat'>
-                {msgitems}
+                
+              {msgitem}
+                 
               </Container>
            </Row>
            {/* Input bar for message, image, video or audio.*/}

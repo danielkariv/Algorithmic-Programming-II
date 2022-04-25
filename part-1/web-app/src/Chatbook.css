@@ -7,24 +7,41 @@
 }
 
 
+.time-meta {
+  text-align: right;
+  font-size: 12px;
+  padding: 1% !important;
+  color: rgba(0, 0, 0, .4);
+  vertical-align: baseline;
+}
 
+.user-pic
+{
+ 
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
 .user-pic img {
-    
+  margin: auto;
+  
     border-radius: 50%;
     height: 49px;
     width: 49px;
   }
 .namespace
 {
-    height: 70%;
+    height: 60%;
     text-align: left;
-    font-size: 30px;
+    font-size: 25px;
 }
 .msgspace
 {
-    height: 30%;
+    height: 40%;
     text-align: left;
     top: auto;
-    font-size: 10px;
-    color: #0000007c;
+    font-size: 15px;
+    color: rgb(59, 74, 84);
 }
