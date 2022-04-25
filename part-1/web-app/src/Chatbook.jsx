@@ -105,12 +105,12 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
               <Col className="col-5 ">
                 <Container>
                   <Row> 
-                    <Col className="namespace">                   
+                    <Col className="namespace text-truncate">                   
                       {usertosend.displayName}
                     </Col> 
                   </Row>
                   <Row>
-                    <Col className="msgspace">
+                    <Col className="msgspace text-truncate">
                       {content}
                     </Col>
                   </Row>
@@ -126,7 +126,7 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
   },[user]);
 
   return (
-    <Container className="d-flex flex-column" style={{height:"100%"}}>
+    <Container className="d-flex flex-column" style={{height:"100%", maxHeight:"100%"}}>
        {/* Row of input */}
       <Row>
        <Form>
@@ -135,7 +135,7 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB})
             {(user !== null)?<img src={user.image}></img>:null }
           </Col>
           <Col className='col-6'>
-          {(user !== null)?user.displayName:null }
+          {(user !== null)?<h6 className=' text-truncate'>{user.displayName}</h6>:null }
           </Col>
           <Col className='col-3'>
             <Button variant="primary" type="submit">

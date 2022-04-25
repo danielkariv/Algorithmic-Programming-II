@@ -100,25 +100,25 @@ function Chat({user, selectedUser, messagesDB})
   
     return (
       <>
-       <Container className="d-flex flex-column" style={{height:"100%"}}>
+       <Container className="d-flex flex-column" style={{height:"100%",padding:"0px"}}>
             {/* Top bar, image and username with chat with.*/}
-           <Row>
+           <Row style={{minHeight:"3rem",maxHeight:"3rem"}}>
                 <Col>
-                Image
+                {(selectedUser !== null)?<img className="user-pic" style={{maxHeight:"3rem"}} src={selectedUser.image}></img>:null }
                 </Col>
                 <Col>
-                Second Username
+                {(selectedUser !== null)?<h6 className=' text-truncate'>{selectedUser.displayName}</h6>:null }
                 </Col>
            </Row>
            {/* The chat itself, need to be scrollable, and have rows inside with messages.
                 TODO: make it strech to all avaiable height. */}
            <Row style={{"flexGrow" : "1"}}>
-              <Container className='chat'>
+              <Container className='chat' >
                 {msgitems}
               </Container>
            </Row>
            {/* Input bar for message, image, video or audio.*/}
-           <Row>
+           <Row style={{minHeight:"3rem",maxHeight:"3rem"}}>
            <Form>
                 <Row>
                 <Col className='col-2'>

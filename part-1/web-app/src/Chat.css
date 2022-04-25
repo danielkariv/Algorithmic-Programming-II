@@ -5,7 +5,7 @@
     background-size: cover;
     overflow-y: auto;
     border: 1px solid #f7f7f7;
-    height: calc(100% - 120px);
+    height: calc(max(100vh,300px + 12rem) - 6rem - 6rem); /* we remove from it size the padding and the other rows in the col*/
     display:flex; 
     flex-direction:column-reverse;
   }
@@ -63,18 +63,23 @@
   }
 
   .message-main-receiver {
-   
-    max-width: 60%;
+   text-align: left;
+    padding: 1% 0% 1% 5%;
   }
   
   .message-main-sender {
-    padding: 3px 20px !important;
-    margin-left: 40% !important;
-    max-width: 60%;
+    text-align: right;
+    padding: 1% 5% 1% 0%;
   }
 
   .pic
   {
-    max-width: 40%;
-    max-height: 40%;
+    max-width: 8rem;
+  }
+
+  .user-pic img {
+    
+    border-radius: 50%;
+    height: 49px;
+    width: 49px;
   }
