@@ -36,7 +36,7 @@ function Messenger({user, usersDB, messagesDB}) {
         <Chatbook setSelectedUser={setSelectedUser} selectedUser={selectedUser} user={user} messagesDB={messagesDB} usersDB={usersDB} updateInfo={updateInfo} />
         
       </Col>
-      <Col className="col-6">
+      <Col className="col-6" style={{padding:"0px",margin:"0px"}}>
         <Chat selectedUser={selectedUser} user={user} messagesDB={messagesDB} usersDB={usersDB} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo}/>
       </Col>
       </Row>

@@ -102,7 +102,7 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       }
       // return the render of message by his type.
       return (
-            <Row className='message-body' style={{height:"100 px"}} >
+            <Row className='message-body' key={key} style={{height:"100 px"}} >
               <Col className={cname}>
                 <div className={dname}>
                   <div className="message-text">
@@ -117,6 +117,10 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       
   function onSubmitMessage(e){
     e.preventDefault(); // prevent default logic.
+    if(username === null || selectedUser === null){
+      console.log("user isn't selected a chat member to speak yet, so no messages can't be passed.")
+      return;
+    }
     // if we loaded a file.
     if(file !== ""){
       if (file !== null){
@@ -162,23 +166,25 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       setMessageInput("");
       // working, need to trigger an update ( using external prop).
       setUpdateInfo(!updateInfo);
+      console.log(messagesDB);
     }
   }
+  useEffect(()=>{
+    setFile("");
+  },[fileButtonPopup]);
     return (
       <>
-       <Container className="d-flex flex-column" style={{height:"100%",padding:"0px"}}>
+       <Container className="d-flex flex-column" style={{height:"100%",padding:"0px",margin:"0px"}}>
             {/* Top bar, image and username with chat with.*/}
-           <Row style={{minHeight:"3rem",maxHeight:"3rem"}}>
-                <Col>
-                {(selectedUser !== null)?<img className="user-pic" style={{maxHeight:"3rem"}} src={selectedUser.image}></img>:null }
-                </Col>
-                <Col>
-                {(selectedUser !== null)?<h6 className=' text-truncate'>{selectedUser.displayName}</h6>:null }
-                </Col>
-           </Row>
+           <Row style={{minHeight:"3rem",maxHeight:"3rem",alignSelf:"center"}}>
+            <Col>
+              {(selectedUser !== null)?<img style={{width:"2.5rem", height:"2.5rem", borderRadius:"50%", padding:"0.25rem",margin:"0"}} src={selectedUser.image}></img>:null }
+              {(selectedUser !== null)?<b className='text-truncate' style={{padding:"0.5rem",margin:"0",textAlign:"left"}}>{selectedUser.displayName}</b>:null }
+            </Col>
+            </Row>
            {/* The chat itself, need to be scrollable, and have rows inside with messages.
                 TODO: make it strech to all avaiable height. */}
-           <Row style={{"flexGrow" : "1"}}>
+           <Row style={{"flexGrow" : "1", margin:"0px"}}>
               <Container className='chat' >
                 {msgitems}
               </Container>
@@ -188,7 +194,7 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
             <Col>
               <Form onSubmit={onSubmitMessage}>
               {}
-                <Row> 
+                <Row style={{paddingLeft:"1rem", paddingRight:"1rem", paddingTop:"0.25rem"}}> 
                 {/* 
                 <Col className='col-2'>
                 <Form.Group  controlId="formInputFile">
@@ -196,9 +202,9 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
                 </Form.Group>
                 </Col>
                 */}
-                <Col className='col-2'>
+                <Col className='col-2' style={{padding:"0px"}}>
                 <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
                     File
                   </Dropdown.Toggle>
 
@@ -214,8 +220,8 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
                   <Form.Control type="text" placeholder="Enter text ... " value={messageInput} onChange={(e)=>{setMessageInput(e.target.value)}}/>
                   </Form.Group>
                 </Col>
-                  <Col className='col-2'>
-                    <Button variant="primary" type="submit">
+                  <Col className='col-2' style={{padding:"0px"}}>
+                    <Button variant="success" type="submit">
                     Send
                     </Button>
                   </Col>
@@ -229,14 +235,16 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
 
         <Popup triggerd={fileButtonPopup} setTrigger={setFileButtonPopup} kind={""} imgsrc={""}>
           <Form onSubmit={onSubmitMessage} >
-          <Container style={{backgroundColor:"white", textAlign:"left",border:"3px solid #000000", height:"150px"}}>
+          <Container style={{backgroundColor:"white", textAlign:"left",border:"1px solid #000000", height:"auto", padding:"4rem"}}>
             <Row>
               <Form.Group  controlId="formInputFile">
                 <Form.Control type='file' placeholder='' value={file.value} accept={(fileType === "img")? "image/*" : (fileType === "vid")? "video/*" : (fileType === "aud")? "audio/*" : "null" /* any="image/*,video/*,audio/*" */} onChange={(e)=>{setFile(e.target.files[0]); /*onSubmitMessage(e);*/} }/>
               </Form.Group>
             </Row>
+            <Row style={{padding:"0.5rem"}}>
+            </Row>
               <Row>
-              <Button variant="primary" type="submit">
+              <Button variant="success" type="submit">
                 Send
               </Button>
             </Row>

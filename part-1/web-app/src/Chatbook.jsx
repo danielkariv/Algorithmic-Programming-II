@@ -92,7 +92,7 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
     
     // finally create row for each user in our list, which used later for rendering the chatbook.
     var Today= new Date();
-
+    var idValue = 0;
     var list = (chatbooklist.map((bookitem,key) =>{
       var name= "";
       (bookitem.from === username)?name=bookitem.to :name=bookitem.from;
@@ -109,7 +109,7 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
           }
           else
           {
-
+            
           }
       if(Retday(Today) == Retday(bookitem.timestamp))
       time = TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
@@ -124,8 +124,8 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
       else if (bookitem.type === "aud")
         content="audio";
     return (
-            <Row className={cname} style={{height:"100 px"}} onClick={() => Click(name)}>
-              <Col  className=" user-pic col-3" style={{}}>
+            <Row className={cname} style={{height:"4.5rem"}} key={key} onClick={() => Click(name)}>
+              <Col className=" user-pic col-3" style={{}}>
                 <Image src={usertosend.image} />
               </Col>
               <Col className="col-5 ">
@@ -143,13 +143,13 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
                 </Container>
               </Col>
               <Col className=" col-4">
-                <span class="time-meta pull-right">{time}</span>
+                <span className="time-meta pull-right">{time}</span>
               </Col>
             </Row>);
     }));
     // setting the state as list.
     setBookitemlist(list);
-  },[user,updateInfo]);
+  },[user,selectedUser,updateInfo]);
 
   function onSubmitUsername(e){
     e.preventDefault(); // prevent default logic.
@@ -179,15 +179,15 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
     <Container className="d-flex flex-column" style={{height:"100%", maxHeight:"100%", padding:"0"}}>
        {/* Row of input */}
       
-       <Row className='heading' style={{padding:"0"}}>
+      <Row className='heading'>
         <Col className='user-pic col-3'> 
           {(user !== null)?<img src={user.image}></img>:null }
         </Col>
-        <Col className='  col-6 text-truncate'>
-        {(user !== null)? <h3 style={{textAlign:"justify"}} > {user.displayName} </h3>: null }
+        <Col className='col-6'>
+        {(user !== null)? <h4 className="text-truncate" style={{textAlign:"justify"}} > {user.displayName} </h4>: null }
         </Col>
-        <Col className=' col-3 '>
-        <Button onClick={()=>{ setButtonPopup(true); }}>
+        <Col className=' col-2 '>
+        <Button variant='success' onClick={()=>{ setButtonPopup(true); }}>
               Add
             </Button>
         </Col>
@@ -203,7 +203,7 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
      </Container>
      <Popup triggerd={buttonPopup} setTrigger={setButtonPopup} kind={"NO"} >
      <Form onSubmit={onSubmitUsername} >
-       <Container style={{backgroundColor:"white", textAlign:"left",border:"3px solid #000000", height:"150px"}}>
+       <Container style={{backgroundColor:"white", textAlign:"left",border:"1px solid #000000", height:"auto", padding:"4rem"}}>
          <Row>
            <h4>Enter  username:</h4>
          </Row>
@@ -214,7 +214,7 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
             </Form.Group>
           </Col>
           <Col className='col-3'>
-            <Button variant="primary" type="submit">
+            <Button variant="success" type="submit">
               Add
             </Button>
           </Col>

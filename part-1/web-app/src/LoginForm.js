@@ -19,7 +19,6 @@ function LoginForm({usersDB,setUser}) {
             var userData = usersDB.find(e => e.username === username && e.password === password )
             if (userData != null) {
                 // if it works, userData has all the data on this user, we would save it for later app usage.
-                console.log("I AM IN!! ", userData.displayName)
                 setUser(userData)
                 setFormValid(true)
                 navigate('/');

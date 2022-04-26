@@ -12,12 +12,13 @@ function App() {
   const [user, setUser] = useState(null);
 
   // hardcoded user database (will be replaced when we add backend server)
-  var usersDB = [{username:"user",password:"1234", displayName:"User",image:"http://localhost:3000/favicon.ico"},
-                  {username:"bot",password:"botbot", displayName:"Bot",image:"http://localhost:3000/favicon.ico"},
-                  {username:"daniel",password:"abc123", displayName:"Daniel",image:"http://localhost:3000/favicon.ico"},
+  var usersDB = [{username:"user",password:"1234", displayName:"User",image:"http://localhost:3000/profile-grey.jpg"},
+                  {username:"bot",password:"botbot", displayName:"Bot",image:"http://localhost:3000/profile-grey.jpg"},
+                  {username:"daniel",password:"abc123", displayName:"Daniel",image:"http://localhost:3000/profile-blue.jpg"},
                   {username:"admin",password:"admin", displayName:"Admin",image:"http://localhost:3000/favicon.ico"},
-                  {username:"DanielY",password:"yanovsky123", displayName:"Daniel Yanovsky",image:"http://localhost:3000/favicon.ico"},
-                  {username:"yoshi",password:"Woooo!", displayName:"Yoshi",image:"http://localhost:3000/favicon.ico"},]
+                  {username:"DanielY",password:"yanovsky123", displayName:"Daniel Yanovsky",image:"http://localhost:3000/profile-orange.jpg"},
+                  {username:"yoshi",password:"Woooo!", displayName:"Yoshi",image:"http://localhost:3000/profile-green.jpg"},
+                  {username:"DanielK",password:"kariv123", displayName:"Daniel Kariv",image:"http://localhost:3000/profile-purple.jpg"}]
   // hardcoded messages database (will be replaced when we add backend server)
   // Notice: I wrote it in code, so I pretty sure the timestamp isn't right.
   var messagesDB = [
@@ -36,7 +37,11 @@ function App() {
                     {from:"DanielY",to:"user",type:"msg",content:"lets try somting ", timestamp:new Date(1650143148102)},
                     {from:"yoshi",to:"DanielY",type:"img",content:"http://localhost:3000/pic/pic1.jpg", timestamp:new Date(1650143158102)},
                     {from:"DanielY",to:"bot",type:"aud",content:"http://localhost:3000/pic/hourse.mp3 ", timestamp:new Date(1650153148102)},
-                    {from:"DanielY",to:"bot",type:"vid",content:"http://localhost:3000/pic/vid.mp4 ", timestamp:new Date(1650154148102)}
+                    {from:"DanielY",to:"bot",type:"vid",content:"http://localhost:3000/pic/vid.mp4 ", timestamp:new Date(1650154148102)},
+                    {from:"DanielK",to:"DanielY",type:"msg",content:"Test, test.. ", timestamp:new Date(1650999948102)},
+                    {from:"DanielY",to:"DanielK",type:"img",content:"http://localhost:3000/pic/pic1.jpg", timestamp:new Date(1650999949102)},
+                    {from:"DanielY",to:"DanielK",type:"aud",content:"http://localhost:3000/pic/hourse.mp3 ", timestamp:new Date(1650999958102)},
+                    {from:"DanielK",to:"DanielY",type:"vid",content:"http://localhost:3000/pic/vid.mp4 ", timestamp:new Date(1650999960102)}
                    
                     // {from:"",to:"",type:"",content:"", timestamp:""},
                   ]

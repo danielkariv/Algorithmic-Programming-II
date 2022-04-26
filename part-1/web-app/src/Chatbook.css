@@ -12,10 +12,9 @@
     background: #eee7e7f1;
 }
 .heading {
-
-  margin: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   height: 100px;
-  width: 100%;
   background-color: #eee;
 
 }
@@ -25,22 +24,24 @@
   font-size: 12px;
   padding: 1% !important;
   color: rgba(0, 0, 0, .4);
-  vertical-align: baseline;
+  vertical-align:middle;
 }
 
 .user-pic
 { 
 display: flex;
+/*
 align-items: center;
 justify-content: center;
+*/
 
 }
 
 .user-pic img {
-    margin: auto;
+  margin: auto;
     border-radius: 50%;
-    height: 49px;
-    width: 49px;
+    height: 3rem;
+    width: 3rem;
   }
 .namespace
 {
