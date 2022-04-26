@@ -18,7 +18,7 @@ function Messenger({user, usersDB, messagesDB}) {
     });
 
     const [selectedUser, setSelectedUser] = useState(null);
-
+    const [updateInfo, setUpdateInfo] = useState(false);
     function validateUser(){
     // This suppose to check if user is saved as state.
     // For now, as no backend exist, it will check only user state (init as null)
@@ -33,11 +33,11 @@ function Messenger({user, usersDB, messagesDB}) {
       <Row style={{height:"100%"}}>
       {/* Left Column (how we chat with, and option to add new user to list) */}
       <Col className="col-6">
-        <Chatbook setSelectedUser={setSelectedUser} user={user} messagesDB={messagesDB} usersDB={usersDB}/>
+        <Chatbook setSelectedUser={setSelectedUser} selectedUser={selectedUser} user={user} messagesDB={messagesDB} usersDB={usersDB} updateInfo={updateInfo} />
         
       </Col>
       <Col className="col-6">
-        <Chat selectedUser={selectedUser} user={user} messagesDB={messagesDB} usersDB={usersDB}/>
+        <Chat selectedUser={selectedUser} user={user} messagesDB={messagesDB} usersDB={usersDB} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo}/>
       </Col>
       </Row>
     </Container>
