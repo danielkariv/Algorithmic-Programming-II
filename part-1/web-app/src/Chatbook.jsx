@@ -163,9 +163,10 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
       var userData = usersDB.find(e => e.username === usernameInput)
         if (userData != null) {
             // if it works, userData has all the data on this user, we would save it for later app usage.
-           setError("");
+            setError("");
             setSelectedUser(userData)
             setUsernameInput("");
+            setButtonPopup(false);
         }else{
        setError("couldn't find user in database");
         }
