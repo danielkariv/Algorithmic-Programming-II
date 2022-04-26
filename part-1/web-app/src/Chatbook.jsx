@@ -1,6 +1,6 @@
  import './Chatbook.css';
 import { Container,Row,Form,Col,Button ,Image } from "react-bootstrap";
-
+import Popup from './Popup';
 import React, { useState, useEffect } from 'react';
 
 function TwoDigits(temp)
@@ -10,9 +10,19 @@ function TwoDigits(temp)
         return temp;
     else
     return "0" +temp;
-
 }
-function Chatbook({user, setSelectedUser, usersDB, messagesDB , updateInfo })
+
+//return the date of the year.
+function Retday(temp)
+{
+   var dd=temp.getDate();
+   var mm= parseInt(temp.getMonth())+1;
+   var yyyy= 2000+ parseInt(temp.getYear()) -100;
+   var TodayIs=dd+"."+mm+"."+yyyy ;
+   return TodayIs;
+}
+
+function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , updateInfo })
 {
   /* There is access to:
       - current user that has login.
@@ -28,6 +38,8 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB , updateInfo })
   
   const [bookitemlist,setBookitemlist] = useState([]);
   const [usernameInput,setUsernameInput] = useState([]);
+  const [buttonPopup,setButtonPopup]=useState(false);
+  const [error,setError]=useState("");
 
   function Click(v)
   {
@@ -79,17 +91,30 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB , updateInfo })
     }
     
     // finally create row for each user in our list, which used later for rendering the chatbook.
-    
+    var Today= new Date();
+
     var list = (chatbooklist.map((bookitem,key) =>{
       var name= "";
       (bookitem.from === username)?name=bookitem.to :name=bookitem.from;
       var content="";
       var time;
       var usertosend=[];
+      var cname="stam";
       for (var user of usersDB)
         if(user.username === name)
           usertosend = user;
+          if ( selectedUser!= null && usertosend.username== selectedUser.username)
+          {
+          cname="stam2";
+          }
+          else
+          {
+
+          }
+      if(Retday(Today) == Retday(bookitem.timestamp))
       time = TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
+      else
+       time =Retday(bookitem.timestamp);
       if (bookitem.type === "msg")
         content=bookitem.content;
       else if (bookitem.type === "img")
@@ -99,7 +124,7 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB , updateInfo })
       else if (bookitem.type === "aud")
         content="audio";
     return (
-            <Row className="stam" style={{height:"100 px"}} onClick={() => Click(name)}>
+            <Row className={cname} style={{height:"100 px"}} onClick={() => Click(name)}>
               <Col  className=" user-pic col-3" style={{}}>
                 <Image src={usertosend.image} />
               </Col>
@@ -118,7 +143,7 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB , updateInfo })
                 </Container>
               </Col>
               <Col className=" col-4">
-                {time}
+                <span class="time-meta pull-right">{time}</span>
               </Col>
             </Row>);
     }));
@@ -129,38 +154,59 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB , updateInfo })
   function onSubmitUsername(e){
     e.preventDefault(); // prevent default logic.
 
-    console.log("try to select new user to chat with")
+   // console.log("try to select new user to chat with")
     if(usernameInput.length > 0){
       if (usernameInput === user.username){
-        console.log("try to speak with yourself")
+        setError("try to speak with yourself");
         return;
       }
       var userData = usersDB.find(e => e.username === usernameInput)
         if (userData != null) {
             // if it works, userData has all the data on this user, we would save it for later app usage.
+            setError("");
             setSelectedUser(userData)
             setUsernameInput("");
+            setButtonPopup(false);
         }else{
-          console.log("couldn't find user in database");
+       setError("couldn't find user in database");
         }
     }else{
-      console.log("empty input in username field");
+      setError("empty input in username field");
     }
   }
   return (
-    <Container className="d-flex flex-column" style={{height:"100%", maxHeight:"100%"}}>
+    <>
+    <Container className="d-flex flex-column" style={{height:"100%", maxHeight:"100%", padding:"0"}}>
        {/* Row of input */}
       
-     <Row>
+       <Row className='heading' style={{padding:"0"}}>
         <Col className='user-pic col-3'> 
           {(user !== null)?<img src={user.image}></img>:null }
         </Col>
-        <Col className='col-6'>
-        {(user !== null)?<h6 className=' text-truncate'>{user.displayName}</h6>:null }
+        <Col className='  col-6 text-truncate'>
+        {(user !== null)? <h3 style={{textAlign:"justify"}} > {user.displayName} </h3>: null }
         </Col>
+        <Col className=' col-3 '>
+        <Button onClick={()=>{ setButtonPopup(true); }}>
+              Add
+            </Button>
+        </Col>
+
       </Row>
-      <Row>
-       <Form onSubmit={onSubmitUsername}>
+
+     {/* Row of list of chat memebers */}
+     <Row style={{"flexGrow" : "1"}}>
+      <Container id="booklist" style={{maxHeight:"100%",overflow:"auto",backgroundColor:"white"}}>
+        {bookitemlist}
+      </Container>
+     </Row>
+     </Container>
+     <Popup triggerd={buttonPopup} setTrigger={setButtonPopup} kind={"NO"} >
+     <Form onSubmit={onSubmitUsername} >
+       <Container style={{backgroundColor:"white", textAlign:"left",border:"3px solid #000000", height:"150px"}}>
+         <Row>
+           <h4>Enter  username:</h4>
+         </Row>
           <Row>
           <Col className='col-9'>
             <Form.Group controlId="formInputUsername">
@@ -173,16 +219,13 @@ function Chatbook({user, setSelectedUser, usersDB, messagesDB , updateInfo })
             </Button>
           </Col>
          </Row>
+         <Row>
+         <p style={{color : "red"}}>{error}</p>
+         </Row>
+         </Container>
        </Form>
-     </Row>
-     {/* Row of list of chat memebers */}
-     <Row style={{"flexGrow" : "1"}}>
-      <Container id="booklist" style={{maxHeight:"100%",overflow:"auto",backgroundColor:"white"}}>
-        {bookitemlist}
-      </Container>
-     </Row>
-     </Container>
-    
+        </Popup>
+    </>
     );
 }
 export default Chatbook;

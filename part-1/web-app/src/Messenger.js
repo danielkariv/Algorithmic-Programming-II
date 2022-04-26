@@ -33,7 +33,7 @@ function Messenger({user, usersDB, messagesDB}) {
       <Row style={{height:"100%"}}>
       {/* Left Column (how we chat with, and option to add new user to list) */}
       <Col className="col-6">
-        <Chatbook setSelectedUser={setSelectedUser} user={user} messagesDB={messagesDB} usersDB={usersDB} updateInfo={updateInfo} />
+        <Chatbook setSelectedUser={setSelectedUser} selectedUser={selectedUser} user={user} messagesDB={messagesDB} usersDB={usersDB} updateInfo={updateInfo} />
         
       </Col>
       <Col className="col-6">
