@@ -124,7 +124,6 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
     // if we loaded a file.
     if(file !== ""){
       if (file !== null){
-      console.log(file);
       var type = "error"
       // accept="image/*,video/*,audio/*"
       if(file.type.split('/')[0] === "audio")
@@ -166,7 +165,6 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       setMessageInput("");
       // working, need to trigger an update ( using external prop).
       setUpdateInfo(!updateInfo);
-      console.log(messagesDB);
     }
   }
   useEffect(()=>{

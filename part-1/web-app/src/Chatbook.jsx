@@ -154,7 +154,6 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
   function onSubmitUsername(e){
     e.preventDefault(); // prevent default logic.
 
-   // console.log("try to select new user to chat with")
     if(usernameInput.length > 0){
       if (usernameInput === user.username){
         setError("try to speak with yourself");
