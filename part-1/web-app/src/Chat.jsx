@@ -4,6 +4,15 @@ import Popup from './Popup';
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button} from "react-bootstrap";
 
+function Retday(temp)
+{
+   var dd=temp.getDate();
+   var mm= parseInt(temp.getMonth())+1;
+   var yyyy= 2000+ parseInt(temp.getYear()) -100;
+   var TodayIs=dd+"."+mm+"."+yyyy ;
+   return TodayIs;
+}
+
 function TwoDigits(temp)
 {
   temp=parseInt(temp);
@@ -63,6 +72,7 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
     // run on each messages and decide how to display it.
     setMsgitems(sortedusermessagesDB.map((bookitem,key) =>{
       var name= "";
+      var Today= new Date();
       (bookitem.from === username)?name=bookitem.to :name=bookitem.from;
       var content="";
       var time;
@@ -72,8 +82,12 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       //cheking if the massege was sent
       (bookitem.from === username)?cname="message-main-sender" :cname="message-main-receiver";
       (bookitem.from === username)?dname="sender" :dname="receiver";
-      if (msg)
-        time = TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
+      if (msg){
+        if(Retday(Today) == Retday(bookitem.timestamp))
+          time = TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
+        else
+         time =Retday(bookitem.timestamp) +" "+ TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());;
+      }
       // check which type of message, to handle his information correct.
       if (bookitem.type ==="msg")
       {
