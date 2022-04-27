@@ -1,7 +1,6 @@
  import './Chatbook.css';
 import { Container,Row,Form,Col,Button ,Image } from "react-bootstrap";
 import Popup from './Popup';
-
 import React, { useState, useEffect } from 'react';
 
 function TwoDigits(temp)
@@ -11,7 +10,6 @@ function TwoDigits(temp)
         return temp;
     else
     return "0" +temp;
-
 }
 
 //return the date of the year.
@@ -42,7 +40,7 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
   const [usernameInput,setUsernameInput] = useState([]);
   const [buttonPopup,setButtonPopup]=useState(false);
   const [error,setError]=useState("");
-  
+
   function Click(v)
   {
     for (var user of usersDB)
@@ -93,9 +91,8 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
     }
     
     // finally create row for each user in our list, which used later for rendering the chatbook.
-    
     var Today= new Date();
-    
+    var idValue = 0;
     var list = (chatbooklist.map((bookitem,key) =>{
       var name= "";
       (bookitem.from === username)?name=bookitem.to :name=bookitem.from;
@@ -127,8 +124,8 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
       else if (bookitem.type === "aud")
         content="audio";
     return (
-            <Row className={cname}  style={{height:"100 px"}} onClick={() => Click(name)}>
-              <Col  className=" user-pic col-3" style={{}}>
+            <Row className={cname} style={{height:"4.5rem"}} key={key} onClick={() => Click(name)}>
+              <Col className=" user-pic col-3" style={{}}>
                 <Image src={usertosend.image} />
               </Col>
               <Col className="col-5 ">
@@ -146,18 +143,17 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
                 </Container>
               </Col>
               <Col className=" col-4">
-              <span class="time-meta pull-right">{time}</span>
+                <span className="time-meta pull-right">{time}</span>
               </Col>
             </Row>);
     }));
     // setting the state as list.
     setBookitemlist(list);
-  },[user,updateInfo]);
+  },[user,selectedUser,updateInfo]);
 
   function onSubmitUsername(e){
     e.preventDefault(); // prevent default logic.
 
-   // console.log("try to select new user to chat with")
     if(usernameInput.length > 0){
       if (usernameInput === user.username){
         setError("try to speak with yourself");
@@ -166,9 +162,10 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
       var userData = usersDB.find(e => e.username === usernameInput)
         if (userData != null) {
             // if it works, userData has all the data on this user, we would save it for later app usage.
-           setError("");
+            setError("");
             setSelectedUser(userData)
             setUsernameInput("");
+            setButtonPopup(false);
         }else{
        setError("couldn't find user in database");
         }
@@ -178,26 +175,24 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
   }
   return (
     <>
-    <Container className="d-flex flex-column" style={{height:"100%", maxHeight:"100%",padding:"0"}}>
+    <Container className="d-flex flex-column" style={{height:"100%", maxHeight:"100%", padding:"0"}}>
        {/* Row of input */}
       
-     <Row className='heading' style={{padding:"0"}}>
+      <Row className='heading'>
         <Col className='user-pic col-3'> 
           {(user !== null)?<img src={user.image}></img>:null }
         </Col>
-        <Col className='  col-6 text-truncate'>
-        {(user !== null)? <h3 style={{textAlign:"justify"}} > {user.displayName} </h3>: null }
+        <Col className='col-6'>
+        {(user !== null)? <h4 className="text-truncate" style={{textAlign:"justify",paddingTop:"1rem"}} > {user.displayName} </h4>: null }
         </Col>
-        <Col className=' col-3 '>
-        <Button onClick={()=>{ setButtonPopup(true); }}>
+        <Col className=' col-2 '  style={{margin:"auto",display:'block'}}>
+        <Button   variant='success' onClick={()=>{ setButtonPopup(true); }}>
               Add
             </Button>
         </Col>
 
       </Row>
-      <Row>
-      
-     </Row>
+
      {/* Row of list of chat memebers */}
      <Row style={{"flexGrow" : "1"}}>
       <Container id="booklist" style={{maxHeight:"100%",overflow:"auto",backgroundColor:"white"}}>
@@ -207,7 +202,7 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
      </Container>
      <Popup triggerd={buttonPopup} setTrigger={setButtonPopup} kind={"NO"} >
      <Form onSubmit={onSubmitUsername} >
-       <Container style={{backgroundColor:"white", textAlign:"left",border:"3px solid #000000", height:"150px"}}>
+       <Container style={{backgroundColor:"white", textAlign:"left",border:"1px solid #000000", height:"auto", padding:"4rem"}}>
          <Row>
            <h4>Enter  username:</h4>
          </Row>
@@ -218,7 +213,7 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
             </Form.Group>
           </Col>
           <Col className='col-3'>
-            <Button variant="primary" type="submit">
+            <Button variant="success" type="submit">
               Add
             </Button>
           </Col>
@@ -229,7 +224,7 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
          </Container>
        </Form>
         </Popup>
-     </>
+    </>
     );
 }
 export default Chatbook;

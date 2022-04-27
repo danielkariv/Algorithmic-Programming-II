@@ -2,7 +2,7 @@
 import './Chat.css';
 import Popup from './Popup';
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button} from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Dropdown} from "react-bootstrap";
 
 function Retday(temp)
 {
@@ -31,7 +31,9 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
   const [msgkind,setmsgkind]=useState("");
   const [msgitems,setMsgitems] = useState([]);
   const [messageInput,setMessageInput] = useState("");
-  const [fileURL,setFileURL] = useState("");
+  const [file,setFile] = useState("");
+  const [fileType,setFileType] = useState("");
+  const [fileButtonPopup,setFileButtonPopup] = useState(false);
     /* There is access to:
         - current user that has login.
         - selected user that was selected from Chatbook.
@@ -82,13 +84,11 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       //cheking if the massege was sent
       (bookitem.from === username)?cname="message-main-sender" :cname="message-main-receiver";
       (bookitem.from === username)?dname="sender" :dname="receiver";
-      if (msg)
-      {       
+      if (msg){
         if(Retday(Today) == Retday(bookitem.timestamp))
-        time = TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
+          time = TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());
         else
          time =Retday(bookitem.timestamp) +" "+ TwoDigits(bookitem.timestamp.getHours())+ ":" + TwoDigits(bookitem.timestamp.getMinutes());;
-        
       }
       // check which type of message, to handle his information correct.
       if (bookitem.type ==="msg")
@@ -102,7 +102,7 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       }
       // return the render of message by his type.
       return (
-            <Row className='message-body' style={{height:"100 px"}} >
+            <Row className='message-body' key={key} style={{height:"100 px"}} >
               <Col className={cname}>
                 <div className={dname}>
                   <div className="message-text">
@@ -117,19 +117,22 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       
   function onSubmitMessage(e){
     e.preventDefault(); // prevent default logic.
+    if(username === null || selectedUser === null){
+      console.log("user isn't selected a chat member to speak yet, so no messages can't be passed.")
+      return;
+    }
     // if we loaded a file.
-    if(e.target.files !== undefined){
-      if (e.target.files[0] !== null){
-      console.log(e.target.files[0]);
+    if(file !== ""){
+      if (file !== null){
       var type = "error"
       // accept="image/*,video/*,audio/*"
-      if(e.target.files[0].type.split('/')[0] === "audio")
+      if(file.type.split('/')[0] === "audio")
         type = "aud";
-      else if (e.target.files[0].type.split('/')[0] === "video")
+      else if (file.type.split('/')[0] === "video")
         type = "vid"
-      else if  (e.target.files[0].type.split('/')[0] === "image")
+      else if  (file.type.split('/')[0] === "image")
         type = "img"
-      var content = URL.createObjectURL(e.target.files[0]);
+      var content = URL.createObjectURL(file);
       username = user.username;
       selectedname = selectedUser.username;
       
@@ -143,6 +146,8 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       messagesDB.push(msg);
       // working, need to trigger an update ( using external prop).
       setUpdateInfo(!updateInfo);
+      setFileButtonPopup(false);
+      setFile("");
       }
     }
     else if (messageInput.length > 0){
@@ -162,21 +167,22 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       setUpdateInfo(!updateInfo);
     }
   }
+  useEffect(()=>{
+    setFile("");
+  },[fileButtonPopup]);
     return (
       <>
-       <Container className="d-flex flex-column" style={{height:"100%",padding:"0px"}}>
+       <Container className="d-flex flex-column" style={{height:"100%",padding:"0px",margin:"0px"}}>
             {/* Top bar, image and username with chat with.*/}
-           <Row style={{minHeight:"3rem",maxHeight:"3rem"}}>
-                <Col>
-                {(selectedUser !== null)?<img className="user-pic" style={{maxHeight:"3rem"}} src={selectedUser.image}></img>:null }
-                </Col>
-                <Col>
-                {(selectedUser !== null)?<h6 className=' text-truncate'>{selectedUser.displayName}</h6>:null }
-                </Col>
-           </Row>
+           <Row style={{minHeight:"3rem",maxHeight:"3rem",alignSelf:"center"}}>
+            <Col>
+              {(selectedUser !== null)?<img style={{width:"2.5rem", height:"2.5rem", borderRadius:"50%", padding:"0.25rem",margin:"0"}} src={selectedUser.image}></img>:null }
+              {(selectedUser !== null)?<b className='text-truncate' style={{padding:"0.5rem",margin:"0",textAlign:"left"}}>{selectedUser.displayName}</b>:null }
+            </Col>
+            </Row>
            {/* The chat itself, need to be scrollable, and have rows inside with messages.
                 TODO: make it strech to all avaiable height. */}
-           <Row style={{"flexGrow" : "1"}}>
+           <Row style={{"flexGrow" : "1", margin:"0px"}}>
               <Container className='chat' >
                 {msgitems}
               </Container>
@@ -185,19 +191,35 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
            <Row style={{minHeight:"3rem",maxHeight:"3rem"}}>
             <Col>
               <Form onSubmit={onSubmitMessage}>
-                <Row> 
+              {}
+                <Row style={{paddingLeft:"1rem", paddingRight:"1rem", paddingTop:"0.25rem"}}> 
+                {/* 
                 <Col className='col-2'>
                 <Form.Group  controlId="formInputFile">
                   <Form.Control type='file' placeholder='' value={fileURL.value} accept="image/*,video/*,audio/*" onChange={(e)=>{setFileURL(URL.createObjectURL(e.target.files[0])); onSubmitMessage(e);} }/>
                 </Form.Group>
                 </Col>
-                  <Col className='col-8'>
-                    <Form.Group  controlId="formInputMessage">
-                    <Form.Control type="text" placeholder="Enter text ... " value={messageInput} onChange={(e)=>{setMessageInput(e.target.value)}}/>
-                    </Form.Group>
-                  </Col>
-                  <Col className='col-2'>
-                    <Button variant="primary" type="submit">
+                */}
+                <Col className='col-2' style={{padding:"0px"}}>
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    File
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={(e)=>{setFileButtonPopup(true); setFileType("img");}}>Image</Dropdown.Item>
+                    <Dropdown.Item onClick={(e)=>{setFileButtonPopup(true); setFileType("vid");}}>Video</Dropdown.Item>
+                    <Dropdown.Item onClick={(e)=>{setFileButtonPopup(true); setFileType("aud");}}>Audio</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                </Col>
+                <Col className='col-8'>
+                  <Form.Group  controlId="formInputMessage">
+                  <Form.Control type="text" placeholder="Enter text ... " value={messageInput} onChange={(e)=>{setMessageInput(e.target.value)}}/>
+                  </Form.Group>
+                </Col>
+                  <Col className='col-2' style={{padding:"0px"}}>
+                    <Button variant="success" type="submit">
                     Send
                     </Button>
                   </Col>
@@ -207,8 +229,26 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
            </Row>
        </Container>
         <Popup triggerd={buttonPopup} setTrigger={setButtonPopup} kind={msgkind} imgsrc={imgsrc}>
-        
         </Popup>
+
+        <Popup triggerd={fileButtonPopup} setTrigger={setFileButtonPopup} kind={""} imgsrc={""}>
+          <Form onSubmit={onSubmitMessage} >
+          <Container style={{backgroundColor:"white", textAlign:"left",border:"1px solid #000000", height:"auto", padding:"4rem"}}>
+            <Row>
+              <Form.Group  controlId="formInputFile">
+                <Form.Control type='file' placeholder='' value={file.value} accept={(fileType === "img")? "image/*" : (fileType === "vid")? "video/*" : (fileType === "aud")? "audio/*" : "null" /* any="image/*,video/*,audio/*" */} onChange={(e)=>{setFile(e.target.files[0]); /*onSubmitMessage(e);*/} }/>
+              </Form.Group>
+            </Row>
+            <Row style={{padding:"0.5rem"}}>
+            </Row>
+              <Row>
+              <Button variant="success" type="submit">
+                Send
+              </Button>
+            </Row>
+            </Container>
+          </Form>
+          </Popup>
       </>
         );
 }
