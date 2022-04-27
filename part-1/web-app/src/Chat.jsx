@@ -34,7 +34,9 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
   const [file,setFile] = useState("");
   const [fileType,setFileType] = useState("");
   const [fileButtonPopup,setFileButtonPopup] = useState(false);
-    /* There is access to:
+  const [recordingButtonState, setrecordingButtonState] = useState(false);
+
+  /* There is access to:
         - current user that has login.
         - selected user that was selected from Chatbook.
         - messagesDB which we are using to get the messages between current user and selected user.
@@ -106,7 +108,10 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
               <Col className={cname}>
                 <div className={dname}>
                   <div className="message-text">
-                    {(bookitem.type==="msg")? content : ((bookitem.type==="img")? <img className="pic" src={content} onClick={()=>{ setmsgkind("img");setButtonPopup(true); setImgsrc(content)}} ></img>: ((bookitem.type==="aud")? <audio controls> <source src={content} type="audio/mpeg"/></audio> :((bookitem.type==="vid")? <img className="pic" src={"http://localhost:3000/pic/vidpic.png"} onClick={()=>{ setmsgkind("vid");setButtonPopup(true); setImgsrc(content)}} ></img>: "") )) }
+                    {(bookitem.type==="msg")? content : (
+                      (bookitem.type==="img")? <img className="pic" src={content} onClick={()=>{ setmsgkind("img");setButtonPopup(true); setImgsrc(content)}} ></img>: (
+                        (bookitem.type==="aud")? <audio controls> <source src={content} type="audio/ogg;"/></audio> :(
+                          (bookitem.type==="vid")? <img className="pic" src={"http://localhost:3000/pic/vidpic.png"} onClick={()=>{ setmsgkind("vid");setButtonPopup(true); setImgsrc(content)}} ></img>: "") )) }
                   </div>
                   <span className="message-time pull-right">{time}</span>
                 </div>
@@ -132,7 +137,9 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
         type = "vid"
       else if  (file.type.split('/')[0] === "image")
         type = "img"
+      
       var content = URL.createObjectURL(file);
+      //console.log(content);
       username = user.username;
       selectedname = selectedUser.username;
       
@@ -145,9 +152,9 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       }
       messagesDB.push(msg);
       // working, need to trigger an update ( using external prop).
-      setUpdateInfo(!updateInfo);
       setFileButtonPopup(false);
       setFile("");
+      setUpdateInfo(!updateInfo);
       }
     }
     else if (messageInput.length > 0){
@@ -170,6 +177,60 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
   useEffect(()=>{
     setFile("");
   },[fileButtonPopup]);
+
+  const [mediaRecorder,setMediaRecorder] = useState(null);
+
+  let chunks = [];
+  function onRecordClick(e){
+    if(recordingButtonState === false){
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        console.log('getUserMedia supported.');
+        navigator.mediaDevices.getUserMedia (
+           // constraints - only audio needed for this app
+           {
+              audio: true
+           })
+     
+           // Success callback
+           .then(function(stream) {
+            var recorder = new MediaRecorder(stream);
+            
+
+            recorder.ondataavailable = function(e) {
+              chunks.push(e.data);
+            }
+
+            recorder.onstop = function(e) {
+              console.log("recorder stopped");
+
+              var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+              chunks = [];
+              setFile(blob);
+            }
+            
+            recorder.start();
+            setMediaRecorder(recorder);
+           })
+     
+           // Error callback
+           .catch(function(err) {
+              console.log('The following getUserMedia error occurred: ' + err);
+           }
+        );
+     } else {
+        
+        console.log('getUserMedia not supported on your browser!');
+     }   
+      setrecordingButtonState(true);
+    }else{
+      if(mediaRecorder !== null)
+        mediaRecorder.stop();
+      else
+        console.log("can't stop recording as mediaRecorder doesn't exist");
+      setrecordingButtonState(false);
+    }
+  }
+
     return (
       <>
        <Container className="d-flex flex-column" style={{height:"100%",padding:"0px",margin:"0px"}}>
@@ -235,9 +296,17 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
           <Form onSubmit={onSubmitMessage} >
           <Container style={{backgroundColor:"white", textAlign:"left",border:"1px solid #000000", height:"auto", padding:"4rem"}}>
             <Row>
-              <Form.Group  controlId="formInputFile">
-                <Form.Control type='file' placeholder='' value={file.value} accept={(fileType === "img")? "image/*" : (fileType === "vid")? "video/*" : (fileType === "aud")? "audio/*" : "null" /* any="image/*,video/*,audio/*" */} onChange={(e)=>{setFile(e.target.files[0]); /*onSubmitMessage(e);*/} }/>
-              </Form.Group>
+                {
+                  (fileType === "img" || fileType === "vid")? 
+                  <Form.Group  controlId="formInputFile">
+                    <Form.Control type='file' placeholder='' value={file.value} accept={(fileType === "img")? "image/*" : (fileType === "vid")? "video/*" : (fileType === "aud")? "audio/*" : "null" /* any="image/*,video/*,audio/*" */} onChange={(e)=>{setFile(e.target.files[0]); /*onSubmitMessage(e);*/} }/>
+                  </Form.Group> :
+                  (fileType === "aud")?
+                  <>
+                    <Button variant="primary" onClick={onRecordClick}> {(recordingButtonState)? "Stop" : "Record"}</Button>
+                  </> : null
+                }
+              
             </Row>
             <Row style={{padding:"0.5rem"}}>
             </Row>
