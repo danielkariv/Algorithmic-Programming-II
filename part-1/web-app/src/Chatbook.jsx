@@ -183,9 +183,9 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
           {(user !== null)?<img src={user.image}></img>:null }
         </Col>
         <Col className='col-6'>
-        {(user !== null)? <h4 className="text-truncate" style={{textAlign:"justify"}} > {user.displayName} </h4>: null }
+        {(user !== null)? <h4 className="text-truncate" style={{textAlign:"justify",paddingTop:"1rem"}} > {user.displayName} </h4>: null }
         </Col>
-        <Col className=' col-2 '>
+        <Col className=' col-2 ' style={{margin:"auto", display:"block"}}>
         <Button variant='success' onClick={()=>{ setButtonPopup(true); }}>
               Add
             </Button>
