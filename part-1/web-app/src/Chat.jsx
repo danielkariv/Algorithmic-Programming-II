@@ -110,7 +110,7 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
                   <div className="message-text">
                     {(bookitem.type==="msg")? content : (
                       (bookitem.type==="img")? <img className="pic" src={content} onClick={()=>{ setmsgkind("img");setButtonPopup(true); setImgsrc(content)}} ></img>: (
-                        (bookitem.type==="aud")? <audio controls> <source src={content} type="audio/ogg;"/></audio> :(
+                        (bookitem.type==="aud")? <audio controls src={content} type="audio/ogg;"> </audio> :(
                           (bookitem.type==="vid")? <img className="pic" src={"http://localhost:3000/pic/vidpic.png"} onClick={()=>{ setmsgkind("vid");setButtonPopup(true); setImgsrc(content)}} ></img>: "") )) }
                   </div>
                   <span className="message-time pull-right">{time}</span>
