@@ -25,3 +25,4 @@ We used those packages in this part:
 - Download/Clone this repo, and get into /part-1/web-app/.
 - run npm install (download needed packages).
 - run npm start.
+- option: use DanielY account in login to view an account with multiple chat members and different types of messages.
