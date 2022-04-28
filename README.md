@@ -15,6 +15,10 @@ Our chat application has support for:
 - send messages with text or with files (audio, video or image).
 - support viewing files in application, in a popup.
 
+We used those packages in this part:
+- (react-router)[https://reactrouter.com/]
+- (react-bootstrap)[https://react-bootstrap.github.io/]
+
 ![Screen Shot 2022-04-27 at 00 40 01](https://user-images.githubusercontent.com/38776931/165397331-f9b1184c-d301-44c4-a38a-dc4a13321079.png)
 
 ### How to run:
