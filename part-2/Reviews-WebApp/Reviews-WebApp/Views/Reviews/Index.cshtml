@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Reviews_WebApp.Models.Review>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Reviews Listing</h1>
+<p>
+    Average Rating: @Html.Raw(ViewBag.Average)
+</p>
+
+<p>
+    <a asp-action="Index" class="btn btn-outline-secondary">Refresh</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Review</a>
+</p>
+
+<form asp-action="Search">
+    <div class="input-group mb-3">
+        <input name="query" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" id="search"/>
+      <div class="input-group-append">
+        <input type="submit" class="btn btn-primary" value="Search"/>
+      </div>
+    </div>
+    
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Feedback)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade) / 5
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Feedback)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                <div class="row">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+
+<script src="~/js/search.js"></script>
+
+}
