@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Col, Container, Form, Row, Image } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
-function RegisterForm({usersDB}) {
+function RegisterForm() {
     const navigate = useNavigate();
 
     const [username,setUsername] = useState("")

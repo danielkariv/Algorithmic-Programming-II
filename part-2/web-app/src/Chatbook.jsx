@@ -26,19 +26,8 @@ function Retday(temp)
    return TodayIs;
 }
 
-function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , updateInfo })
+function Chatbook({user, setSelectedUser,selectedUser , updateInfo  ,setUpdateInfo })
 {
-  /* There is access to:
-      - current user that has login.
-      - a setter for selected user (so we can update Chat for current selected user).
-      - usersDB which allows has to get info about users, and add new user to list.
-      - messagesDB which we will use to know which users we talked with.
-
-      with those, it should be fine to display which users we talk with, and have the option to add new users to list, and select different users to talk with.
-      Notice: there are build-in functions for arrays, like find() and sort() functions, no need to reinvent the wheel here.
-    */
-   //Will be the username string
-
   
   const [bookitemlist,setBookitemlist] = useState([]);
   const [usernameInput,setUsernameInput] = useState([]);
@@ -109,7 +98,7 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
       var date;
       if (bookitem.lastdate) date = new Date(bookitem.lastdate) 
       else date = null
-      console.log(bookitem)
+      //console.log(bookitem)
     return (
             <Row className={"stam"} style={{height:"4.5rem"}} key={key} onClick={() => Click(bookitem.id)}>
               <Col className=" user-pic col-3" style={{}}>
@@ -165,11 +154,11 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
             "id" : usernameInput,"name":displayNameInput, "server" : serverInput
         }) // body data type must match "Content-Type" header
       });
-    const response_external = await fetch("http://"+ selectedUser.server +"/api/invitations/", {
+    const response_external = await fetch("http://"+ serverInput +"/api/invitations", {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'include', // include, *same-origin, omit
+      credentials: 'omit', // include, *same-origin, omit
       headers: {
         'Content-Type': 'application/json'
         // 'Content-Type': 'application/x-www-form-urlencoded',
@@ -177,22 +166,43 @@ function Chatbook({user, setSelectedUser,selectedUser, usersDB, messagesDB , upd
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify({
-          from: user.id,to:usernameInput,server: "localhost:5123"
+          from: user.username,to:usernameInput,server: "localhost:5123"
       }) // body data type must match "Content-Type" header
     });
     if(response.ok == true && response_external.ok == true){
-      // there isn't any user with given email so we can register him.
-      setError("");
-      // -- -- -- Load new contact data.
+      // both server accepted new contact.
+      // We received new contact data, so we set selected user to it.
       var data = await response.json();
       setSelectedUser(data)
       setUsernameInput("");
       setButtonPopup(false);
+      setUpdateInfo(!updateInfo);
     } else{
+      // it means one of the servers failed to add.
+      if (response.ok == true){
+        // if our server respone ok, then external failed so we need to remove the contect from our list.
+        const response = await fetch("http://localhost:5123/api/contacts/"+usernameInput, {
+          method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'include', // include, *same-origin, omit
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        });
+        console.log(response.ok)
+        // no need to check respone.
+      }else{
+        // then external server success adding but our server failed (disconnection?).
+        // I can't fix that because given API we share with other server doesn't have support to disable new invitation.
+      }
       setError("Failed to add new contact (Server issue).");
     }
     }else{
-      setError("empty input in username field");
+      setError("Empty input in username field.");
     }
   }
   return (

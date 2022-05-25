@@ -28,7 +28,7 @@ function Retday(temp)
 }
 
 
-function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
+function Chat({user, selectedUser, updateInfo ,setUpdateInfo})
 {
   //will be use in the popup
   const [buttonPopup,setButtonPopup]=useState(false);
@@ -41,16 +41,6 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
   const [fileButtonPopup,setFileButtonPopup] = useState(false);
   const [recordingButtonState, setrecordingButtonState] = useState(false);
 
-  /* There is access to:
-        - current user that has login.
-        - selected user that was selected from Chatbook.
-        - messagesDB which we are using to get the messages between current user and selected user.
-
-        with those, it should be fine to display the currect messages and add new messages.
-        Notice: there are build-in functions for arrays, like find() and sort() functions, no need to reinvent the wheel here.
-    */
-
-        //Will be the username string
   var username="";
   var selectedname="";
   var msgitem =[];
@@ -90,7 +80,7 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       var date
       if (bookitem.lastdate) date = new Date(bookitem.lastdate) 
       else date = null
-      console.log(bookitem)
+      //console.log(bookitem)
       // return the render of message by his type.
       return (
             <Row className='message-body' key={key} style={{height:"100 px"}} >
@@ -139,7 +129,6 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
         content:content,
         timestamp:new Date(),
       }
-      messagesDB.push(msg);
       // working, need to trigger an update ( using external prop).
       setFileButtonPopup(false);
       setFile("");
@@ -147,7 +136,7 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
       }
     }
     else if (messageInput.length > 0){
-      username = user.id;
+      username = user.username;
       selectedname = selectedUser.id;
       
       var msg = {
@@ -168,11 +157,11 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
             "content":messageInput
         }) // body data type must match "Content-Type" header
       });
-      const response_external = await fetch("http://"+ selectedUser.server +"/api/transfer/", {
+      const response_external = await fetch("http://"+ selectedUser.server +"/api/transfer", {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'include', // include, *same-origin, omit
+        credentials: 'omit', // include, *same-origin, omit
         headers: {
           'Content-Type': 'application/json'
           // 'Content-Type': 'application/x-www-form-urlencoded',
@@ -189,6 +178,8 @@ function Chat({user, selectedUser, messagesDB, updateInfo ,setUpdateInfo})
         // working, need to trigger an update ( using external prop).
         setUpdateInfo(!updateInfo);
       } else{
+        // we failed to send message
+        // it could be failed fetch from our server or external. From external I can't fix, and in ours I don't have the ID of message.
         console.log("failed to send message.");
       }
 

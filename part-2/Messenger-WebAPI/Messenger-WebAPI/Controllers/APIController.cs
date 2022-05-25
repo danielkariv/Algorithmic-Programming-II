@@ -337,6 +337,9 @@ namespace Messenger_WebAPI.Controllers
             if (user == null)
                 return BadRequest();
 
+            var found = _context.Contacts.Where(c => c.User.Id == invitation.To && c.Id == invitation.From && c.Server == invitation.Server).FirstOrDefault();
+            if (found != null)
+                return BadRequest();
             // Notice: we can't check if contact info is actually valid, as it could be different servers from us (it is missing feature from API).
             Contact contact = new Contact();
             // From is the one sending the invitation, and it is from other server.

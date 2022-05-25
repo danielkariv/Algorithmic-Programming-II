@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
-function LoginForm({usersDB,setUser}) {
+function LoginForm({setUser}) {
     const navigate = useNavigate();
     // maybe use a single state for this (user={email:..., password:...})
     const [username,setUsername] = useState("")
