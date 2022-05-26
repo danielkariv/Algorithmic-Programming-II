@@ -28,7 +28,7 @@ function Retday(temp)
 }
 
 
-function Chat({Connection,user, selectedUser, updateInfo ,setUpdateInfo})
+function Chat({Connection,user, selectedUser, updateInfo ,setUpdateInfo,track})
 {
   //will be use in the popup
   const [buttonPopup,setButtonPopup]=useState(false);
@@ -98,7 +98,7 @@ function Chat({Connection,user, selectedUser, updateInfo ,setUpdateInfo})
   }
     asyncFunction();
 
-  },[selectedUser,updateInfo]);
+  },[selectedUser,updateInfo,track]);
       
   async function onSubmitMessage(e){
     e.preventDefault(); // prevent default logic.
@@ -253,7 +253,7 @@ function Chat({Connection,user, selectedUser, updateInfo ,setUpdateInfo})
   
     return (
       <>
-       <Container className="d-flex flex-column" style={{height:"100%",padding:"0px",margin:"0px"}}>
+       <Container  className="d-flex flex-column" style={{height:"100%",padding:"0px",margin:"0px"}}>
             {/* Top bar, image and username with chat with.*/}
            <Row style={{minHeight:"3rem",maxHeight:"3rem",alignSelf:"center"}}>
             <Col>

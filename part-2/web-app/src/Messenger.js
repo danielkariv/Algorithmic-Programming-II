@@ -9,7 +9,7 @@ import { Button, Col, Container, Form, ListGroup, ListGroupItem, Row } from 'rea
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 
 
-function Messenger({user ,updateInfo, setUpdateInfo ,Connection, setConection }) {
+function Messenger({user ,updateInfo, setUpdateInfo ,Connection, setConection ,track }) {
 
     // used to send client to different views. ( use navigate('/SOMEWHERE') in logic to jump to localhost:3000/SOMEWHERE )
     const navigate = useNavigate();
@@ -41,11 +41,11 @@ function Messenger({user ,updateInfo, setUpdateInfo ,Connection, setConection })
       <Row style={{height:"100%"}}>
       {/* Left Column (how we chat with, and option to add new user to list) */}
       <Col className="col-6">
-        <Chatbook Connection={Connection} setSelectedUser={setSelectedUser} selectedUser={selectedUser} user={user} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo}/>
+        <Chatbook Connection={Connection} setSelectedUser={setSelectedUser} selectedUser={selectedUser} user={user} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo} track={track}/>
         
       </Col>
       <Col className="col-6" style={{padding:"0px",margin:"0px"}}>
-        <Chat Connection={Connection} selectedUser={selectedUser} user={user} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo}/>
+        <Chat Connection={Connection} selectedUser={selectedUser} user={user} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo} track={track} />
       </Col>
       </Row>
     </Container>

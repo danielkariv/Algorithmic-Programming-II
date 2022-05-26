@@ -26,7 +26,7 @@ function Retday(temp)
    return TodayIs;
 }
 
-function Chatbook( {Connection,user, setSelectedUser,selectedUser , updateInfo  ,setUpdateInfo })
+function Chatbook( {Connection,user, setSelectedUser,selectedUser , updateInfo  ,setUpdateInfo,track })
 {
   
   const [bookitemlist,setBookitemlist] = useState([]);
@@ -130,7 +130,7 @@ function Chatbook( {Connection,user, setSelectedUser,selectedUser , updateInfo  
     setBookitemlist(list);
     }
     asyncFunction();
-  },[user,selectedUser,updateInfo]);
+  },[user,selectedUser,updateInfo,track]);
 
   async function onSubmitUsername(e){
     e.preventDefault(); // prevent default logic.
