@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Messenger_WebAPI.Data;
+using Messenger_WebAPI.Hubs;
+using Microsoft.AspNetCore.SignalR;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<Messenger_WebAPIContext>(options =>
@@ -23,7 +26,41 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
+
+
+/*
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()               
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
+*/
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder
+              .SetIsOriginAllowed((o) => true)
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials();
+        });
+});
+
+//builder.Services.AddSingleton<IDictionary<string, string>>(opts => new Dictionary<string, string>());
 var app = builder.Build();
+
+//app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -32,18 +69,27 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAll");
+
+/*
 app.UseCors(builder => builder
 
                             .AllowAnyMethod()
-                            .AllowAnyHeader()
+                            .AllowAnyHeader()                          
                             .SetIsOriginAllowed(origin => true)
                             .AllowCredentials());
 
+*/
 app.UseSession();
+
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
 
-
+app.UseEndpoints(endpoints =>
+ {
+     endpoints.MapHub<Myhub>("/myHub");
+    });
 
 app.Run();
