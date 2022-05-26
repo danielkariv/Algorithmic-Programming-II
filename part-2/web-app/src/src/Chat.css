@@ -1,0 +1,80 @@
+.chat {
+    padding: 0.1rem !important;
+    margin: 0 !important;
+    background-color: #ffffff no-repeat fixed center;
+    background-size: cover;
+    overflow-y: auto;
+    border: 1px solid #f7f7f7;
+    height: calc(max(100vh,300px + 12rem) - 6rem - 6rem); /* we remove from it size the padding and the other rows in the col*/
+    display:flex; 
+    flex-direction:column-reverse;
+    background-image: url("../public/chat-background.jpg");
+    background-repeat: repeat;
+  }
+
+ 
+
+  .receiver
+  {
+    width: auto !important;
+    padding: 4px 10px 7px !important;
+    border-radius: 10px 10px 10px 0;
+    background: #ffffff;
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    word-wrap: break-word;
+    display: inline-block;
+  }
+
+  .sender
+  {   
+        float: right;
+        width: auto !important;
+        background: #dcf8c6;
+        border-radius: 10px 10px 0 10px;
+        padding: 4px 10px 7px !important;
+        font-size: 12px;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+        display: inline-block;
+        word-wrap: break-word;
+      
+  }
+  .message-text {
+    margin: 0 !important;
+    padding: 5px !important;
+    word-wrap:break-word;
+    font-weight: 200;
+    font-size: 14px;
+    padding-bottom: 0 !important;
+  }
+
+  .message-body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto;
+    height: auto;
+  }
+
+  .message-time {
+    margin: 0 !important;
+    margin-left: 50px !important;
+    font-size: 12px;
+    text-align: right;
+    color: #9a9a9a;
+  
+  }
+
+  .message-main-receiver {
+   text-align: left;
+    padding: 1% 0% 1% 5%;
+  }
+  
+  .message-main-sender {
+    text-align: right;
+    padding: 1% 5% 1% 0%;
+  }
+
+  .pic
+  {
+    max-width: 8rem;
+  }
