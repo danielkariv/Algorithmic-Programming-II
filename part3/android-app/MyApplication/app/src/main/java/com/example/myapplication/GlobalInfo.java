@@ -9,6 +9,7 @@ public class GlobalInfo extends Application {
     private String HubServer;
     private String Username = "TEST_USER";
     private String Contact = "TEST_CONTACT";
+    private String displayName;
 
     @Override
     public void onCreate(){
@@ -32,4 +33,7 @@ public class GlobalInfo extends Application {
     public void setUsername(String username) {Username = username;}
     public String getContact() {return Contact;}
     public void setContact(String contact) {Contact = contact;}
+
+    public void setDisplayName(String displayName) {this.displayName = displayName;}
+    public String getDisplayName() {return displayName;}
 }
