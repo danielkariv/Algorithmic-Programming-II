@@ -19,7 +19,8 @@ public class Contact {
 
     public String last;
 
-    public String lastDate;
+    public String lastdate;
+
 
     public int getIndex() {
         return index;
@@ -69,13 +70,9 @@ public class Contact {
         this.last = last;
     }
 
-    public String getLastDate() {
-        return lastDate;
-    }
+    public String getLastDate() {return lastdate; }
 
-    public void setLastDate(String lastDate) {
-        this.lastDate = lastDate;
-    }
+    public void setLastDate(String lastDate) {this.lastdate = lastDate; }
 
     public Contact(String user, String id, String name, String server) {
         this.user = user;
@@ -83,6 +80,6 @@ public class Contact {
         this.name = name;
         this.server = server;
         this.last = "";
-        // this.lastDate = ?;
+        this.lastdate = "";
     }
 }

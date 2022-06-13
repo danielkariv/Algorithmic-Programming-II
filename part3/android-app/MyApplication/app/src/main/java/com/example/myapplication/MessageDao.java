@@ -14,7 +14,7 @@ public interface MessageDao {
     @Query("SELECT * FROM message")
     List<Message> index();
 
-    @Query("SELECT * FROM message WHERE id = :id")
+    @Query("SELECT * FROM message WHERE `index` = :id")
     Message get(int id);
 
     @Insert
@@ -25,4 +25,7 @@ public interface MessageDao {
 
     @Delete
     void delete(Message... messages);
+
+    @Query("DELETE FROM message")
+    void nuke();
 }

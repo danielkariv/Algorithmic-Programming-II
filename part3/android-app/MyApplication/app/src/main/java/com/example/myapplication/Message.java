@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Message {
     @PrimaryKey(autoGenerate=true)
-    private int id;
+    private int index;
     private String user;
     private String contactId;
     private String content;
@@ -14,12 +14,12 @@ public class Message {
                             //   not sure if it working, need to test.
     private boolean sent;
 
-    public int getId() {
-        return id;
+    public int getIndex() {
+        return index;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getUser() {
@@ -63,7 +63,6 @@ public class Message {
     }
 
     public Message(String user, String contactId, String content, String created, boolean sent) {
-        this.id = id;
         this.user = user;
         this.contactId = contactId;
         this.content = content;

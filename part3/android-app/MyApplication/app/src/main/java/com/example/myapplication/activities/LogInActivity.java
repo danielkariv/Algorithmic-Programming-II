@@ -52,6 +52,7 @@ public class LogInActivity extends AppCompatActivity {
                 chatAPI.login(username, password, new ChatAPI.responseCallbacks() {
                     @Override
                     public void onSuccess() {
+                        // succesfuly login, now get details on user (for DisplayName).
                         gi.setUsername(username);
                         Intent intent = new Intent(LogInActivity.this, ContectsActivity.class);
                         startActivity(intent);
