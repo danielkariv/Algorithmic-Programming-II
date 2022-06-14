@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.GlobalInfo;
 import com.example.myapplication.R;
 import com.example.myapplication.api.ChatAPI;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -20,6 +21,10 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LogInActivity.this,instanceIdResult ->{
+             String newtoken=instanceIdResult.getToken();
+
+        } );
         GlobalInfo gi =(GlobalInfo) getApplicationContext();
 
         // update current server info.

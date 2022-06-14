@@ -6,7 +6,8 @@ import android.content.Context;
 public class GlobalInfo extends Application {
     public static Context context;
     private String ApiServer = "http://10.0.2.2:5123/";
-    private String HubServer;
+    private String HubServer="http://10.0.2.2:7048/";
+    private String SelectedUser;
     private String Username = "TEST_USER";
     private String Contact = "TEST_CONTACT";
     private String displayName;
