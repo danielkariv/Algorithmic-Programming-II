@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:clipToPadding="false"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    android:padding="20dp"
+    android:layout_height="match_parent"
+    tools:context=".activities.LogInActivity">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center_horizontal"
+          android:orientation="vertical">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="left"
+              android:orientation="horizontal"
+              >
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="5"
+                  android:layout_marginTop="10dp"
+                  android:textSize="15dp"
+                  android:id="@+id/serversinfo"
+                  android:text="fesfsefsef"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent" />
+              <Button
+                  android:layout_width="wrap_content"
+                  android:layout_weight="1"
+                  android:layout_marginTop="10dp"
+                  android:layout_height="40dp"
+                  android:id="@+id/optionButton"
+
+                  android:text="Option"
+                  android:textStyle="bold"
+                  android:textSize="15dp"
+                  />
+          </LinearLayout>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="40dp"
+              android:textSize="50dp"
+              android:text="Login"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent" />
+
+          <EditText
+              android:id="@+id/loginUsername"
+              android:layout_width="match_parent"
+              android:layout_height="60dp"
+              android:layout_marginTop="10dp"
+              android:background="@color/gray"
+              android:hint="Enter username"
+              android:paddingStart="15dp"
+              android:paddingEnd="15dp"
+              android:inputType="text"
+              android:textSize="15dp"
+              />
+
+          <EditText
+              android:id="@+id/loginPassword"
+              android:layout_width="match_parent"
+              android:layout_height="60dp"
+              android:layout_marginTop="10dp"
+              android:background="@color/gray"
+              android:hint="Enter Password"
+              android:paddingStart="15dp"
+              android:paddingEnd="15dp"
+              android:inputType="textPassword"
+              android:textSize="15dp"
+              />
+          <TextView
+              android:id="@+id/loginerror"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="20dp"
+              android:textSize="20dp"
+              android:text=""
+              android:textColor="@color/red"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent" />
+          <Button
+              android:layout_width="match_parent"
+              android:layout_height="60dp"
+              android:id="@+id/loginButton"
+              android:layout_marginTop="30dp"
+              android:text="Login"
+              android:textStyle="bold"
+              android:textSize="20dp"
+              />
+
+          <TextView
+              android:id="@+id/register"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="40dp"
+              android:textSize="20dp"
+              android:text="Not registred?"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent" />
+
+      </LinearLayout>
+
+
+</ScrollView>
