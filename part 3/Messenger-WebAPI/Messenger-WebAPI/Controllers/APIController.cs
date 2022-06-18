@@ -463,7 +463,7 @@ namespace Messenger_WebAPI.Controllers
                     Token = token,
                     Notification = new Notification()
                     {
-                        Title = contact.Name + "sent you a message.",
+                        Title = contact.Name + " sent you a message.",
                         Body = message.Content,
                     },
                 }).Result;

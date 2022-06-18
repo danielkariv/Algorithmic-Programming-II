@@ -41,7 +41,7 @@ public class ChatAPI {
                 .build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(gi.getApiServer())
+                .baseUrl("http://" + gi.getApiServer())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(new OkHttpClient.Builder()
                         // ReceivedCookiesInterceptor
@@ -277,7 +277,7 @@ public class ChatAPI {
 
     public void sendInvitation(String from, String to, String server,final responseCallbacks callbacks){
         Retrofit rf_external = new Retrofit.Builder()
-                .baseUrl(server)
+                .baseUrl("http://" + server)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -308,7 +308,7 @@ public class ChatAPI {
 
     public void trasnfer (String from, String to, String content, String server,final responseCallbacks callbacks){
         Retrofit rf_external = new Retrofit.Builder()
-                .baseUrl(server)
+                .baseUrl("http://" + server)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
