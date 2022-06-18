@@ -26,17 +26,19 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/img"
             />
+
         <TextView
             android:id="@+id/selectedusertext"
-            android:layout_weight="4"
             android:layout_width="wrap_content"
             android:layout_height="75dp"
-            android:layout_marginTop="40dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="5dp"
+            android:layout_weight="4"
+            android:ellipsize="marquee"
+            android:singleLine="true"
             android:text="Name"
-            android:textSize="30dp"
-            />
+            android:textSize="30dp" />
         <Button
             android:id="@+id/backtocontects"
             android:layout_width="50dp"

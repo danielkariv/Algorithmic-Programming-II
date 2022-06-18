@@ -40,7 +40,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         private final TextView lastText;
         private final TextView lastDate;
         private String contactId;
-
+        private String serverAddress;
         private ContactsViewHolder(View itemView){
             super(itemView);
 
@@ -54,6 +54,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
                     // set selected contactId (each row has it own contact it point to).
                     GlobalInfo gi = (GlobalInfo)GlobalInfo.context;
                     gi.setContact(contactId);
+                    gi.setContactServer(serverAddress);
                     onClickListener.onClick(view);
                 }
             });
@@ -92,20 +93,26 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             holder.displayName.setText(current.name);
             holder.lastText.setText(current.last);
             String date=current.lastdate;
-            LocalDateTime myDateObj = LocalDateTime.parse(date);
-            LocalDateTime now=LocalDateTime.now();
-            DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyy");
-            if (now.format(df).equals(myDateObj.format(df)))
-            {
-                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm");
-                String formattedDate = myDateObj.format(myFormatObj);
-                holder.lastDate.setText(formattedDate);
+            if (date != null) {
+                LocalDateTime myDateObj = LocalDateTime.parse(date);
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyy");
+                if (now.format(df).equals(myDateObj.format(df))) {
+                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm");
+                    String formattedDate = myDateObj.format(myFormatObj);
+                    holder.lastDate.setText(formattedDate);
+                }
+                else
+                {
+                    holder.lastDate.setText(myDateObj.format(df));
+                }
             }
-             else
-            {
-                holder.lastDate.setText(myDateObj.format(df));
+            else{
+                // date is null, meaning no message has been sent yet to/from contact.
+                holder.lastDate.setText("");
             }
             holder.contactId = current.getId();
+            holder.serverAddress = current.server;
         }
     }
 

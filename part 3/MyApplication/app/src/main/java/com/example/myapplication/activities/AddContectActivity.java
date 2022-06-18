@@ -87,11 +87,20 @@ public class AddContectActivity extends AppCompatActivity {
                       chatAPI.addContact(contactusernamest,contactserverst,contactnickst,new ChatAPI.responseCallbacks() {
                           @Override
                           public void onSuccess() {
-                              // TODO: send invitation using contactserverst as url (need to implement ChatAPI with different urls).
-
                               // TODO: adding new contact or contacts in general to local DB isn't working well yet. Need to implement it better so each logged user has it own table for contacts/messages.
                               GlobalInfo gi =(GlobalInfo) getApplicationContext();
-                              Contact contact = new Contact(gi.getUsername(),contactnickst,contactnickst,contactserverst);
+                              chatAPI.sendInvitation(gi.getUsername(), contactusernamest, contactserverst, new ChatAPI.responseCallbacks() {
+                                  @Override
+                                  public void onSuccess() {
+                                      // success in sending invitation over to contact's server.
+                                  }
+
+                                  @Override
+                                  public void onFailure() {
+                                      addcontacterror.setText("failed to send invitation.");
+                                  }
+                              });
+                              Contact contact = new Contact(gi.getUsername(),contactusernamest,contactnickst,contactserverst);
                               contactDao.insert(contact);
                               List<Contact> c = contactDao.index();
                               finish();
