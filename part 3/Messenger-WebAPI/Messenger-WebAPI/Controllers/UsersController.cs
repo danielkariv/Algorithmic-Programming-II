@@ -36,7 +36,7 @@ namespace Messenger_WebAPI.Controllers
         {
             public string Id { get; set; }
             public string Password { get; set; }
-            public string Token { get; set; }
+            public string? Token { get; set; }
         }
         // Tries to login with given Id, Password. (Notice: not part of API but we need it for login/register).
         [HttpPost("Login")]
@@ -49,12 +49,15 @@ namespace Messenger_WebAPI.Controllers
             if (found != null)
             {
                 HttpContext.Session.SetString("Id", found.Id);
-                HttpContext.Session.SetString("Token", loginRq.Token);
-                if (APIController.usersToken.ContainsKey(found.Id))
+                if (loginRq.Token != null)
                 {
-                    APIController.usersToken.Remove(found.Id);
+                    HttpContext.Session.SetString("Token", loginRq.Token);
+                    if (APIController.usersToken.ContainsKey(found.Id))
+                    {
+                        APIController.usersToken.Remove(found.Id);
+                    }
+                    APIController.usersToken.Add(found.Id, loginRq.Token);
                 }
-                APIController.usersToken.Add(found.Id, loginRq.Token);
                 return Ok();
             }
             // wrong password/username.
@@ -84,7 +87,10 @@ namespace Messenger_WebAPI.Controllers
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {
+            String? username = HttpContext.Session.GetString("Id");
             HttpContext.Session.Clear();
+            if (username != null)
+                APIController.usersToken.Remove(username);
             return Ok();
         }
 

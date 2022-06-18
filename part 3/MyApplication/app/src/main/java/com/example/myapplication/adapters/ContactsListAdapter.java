@@ -93,7 +93,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             holder.displayName.setText(current.name);
             holder.lastText.setText(current.last);
             String date=current.lastdate;
-            if (date != null) {
+            if (date != null && date != "") {
                 LocalDateTime myDateObj = LocalDateTime.parse(date);
                 LocalDateTime now = LocalDateTime.now();
                 DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyy");
