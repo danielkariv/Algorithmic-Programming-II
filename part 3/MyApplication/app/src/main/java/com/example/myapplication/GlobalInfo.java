@@ -11,7 +11,7 @@ public class GlobalInfo extends Application {
     private String Username = "TEST_USER";
     private String Contact = "TEST_CONTACT";
     private String displayName;
-
+    private String contactServer;
     @Override
     public void onCreate(){
         super.onCreate();
@@ -37,4 +37,11 @@ public class GlobalInfo extends Application {
 
     public void setDisplayName(String displayName) {this.displayName = displayName;}
     public String getDisplayName() {return displayName;}
+
+    public String getContactServer() {
+        return contactServer;
+    }
+    public void setContactServer(String contactServer) {
+        this.contactServer = contactServer;
+    }
 }

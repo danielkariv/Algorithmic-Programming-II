@@ -14,6 +14,8 @@ import com.example.myapplication.R;
 import com.example.myapplication.api.ChatAPI;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class LogInActivity extends AppCompatActivity {
 
     @Override
@@ -21,8 +23,9 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        AtomicReference<String> firebaseToken = new AtomicReference<>();
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LogInActivity.this,instanceIdResult ->{
-             String newtoken=instanceIdResult.getToken();
+            firebaseToken.set(instanceIdResult.getToken());
 
         } );
         GlobalInfo gi =(GlobalInfo) getApplicationContext();
@@ -53,10 +56,15 @@ public class LogInActivity extends AppCompatActivity {
                 EditText passwordInput = (EditText)  findViewById(R.id.loginPassword);
                 String username = usernameInput.getText().toString();
                 String password = passwordInput.getText().toString();
-                chatAPI.login(username, password, new ChatAPI.responseCallbacks() {
+
+
+                if(firebaseToken.get() == null){
+                    le.setText("Error when try to connect to firebase.");
+                }
+                chatAPI.login(username, password,firebaseToken.get(), new ChatAPI.responseCallbacks() {
                     @Override
                     public void onSuccess() {
-                        // succesfuly login, now get details on user (for DisplayName).
+                        // successfully login, now get details on user (for DisplayName).
                         gi.setUsername(username);
                         le.setText("");
                         Intent intent = new Intent(LogInActivity.this, ContectsActivity.class);
@@ -66,7 +74,7 @@ public class LogInActivity extends AppCompatActivity {
                     @Override
                     public void onFailure() {
                         // TODO: report failed to login (UI Element?).
-                        le.setText("error");
+                        le.setText("Invalid Username/Password.");
                     }
                 });
             }

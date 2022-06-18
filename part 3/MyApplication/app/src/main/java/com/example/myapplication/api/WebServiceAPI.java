@@ -4,6 +4,7 @@ import com.example.myapplication.Contact;
 import com.example.myapplication.Message;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,6 +16,7 @@ public interface WebServiceAPI {
     class LoginRq{
         public String Id;
         public String Password;
+        public String Token;
     }
     @POST("Users/Login")
     Call<Void> login(@Body LoginRq loginRq);

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.CookieManager;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import okhttp3.Interceptor;
 import okhttp3.JavaNetCookieJar;
@@ -105,12 +106,12 @@ public class ChatAPI {
         void onSuccess(List<Message> messages);
         void onFailure();
     }
-    public void login(String id, String password, final responseCallbacks callbacks){
+    public void login(String id, String password, String token, final responseCallbacks callbacks){
         WebServiceAPI.LoginRq loginRq = new WebServiceAPI.LoginRq();
         loginRq.Id = id;
         loginRq.Password = password;
+        loginRq.Token = token;
         Call<Void> call = webServiceAPI.login(loginRq);
-
 
         call.enqueue(new Callback<Void>() {
             @Override
@@ -275,11 +276,18 @@ public class ChatAPI {
     // TODO: sendInvitation and transfer aren't fully working yet, it only support our server, we need to create this ChatAPI with other server URL.
 
     public void sendInvitation(String from, String to, String server,final responseCallbacks callbacks){
+        Retrofit rf_external = new Retrofit.Builder()
+                .baseUrl(server)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        WebServiceAPI webapi_external = rf_external.create(WebServiceAPI.class);
+
         WebServiceAPI.Invitation invitation = new WebServiceAPI.Invitation();
         invitation.From= from;
         invitation.To= to;
         invitation.Server= server;
-        Call<Void> call = webServiceAPI.InvitationsPOST(invitation);
+        Call<Void> call = webapi_external.InvitationsPOST(invitation);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -298,12 +306,19 @@ public class ChatAPI {
         });
     }
 
-    public void trasnfer (String from, String to, String content,final responseCallbacks callbacks){
+    public void trasnfer (String from, String to, String content, String server,final responseCallbacks callbacks){
+        Retrofit rf_external = new Retrofit.Builder()
+                .baseUrl(server)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        WebServiceAPI webapi_external = rf_external.create(WebServiceAPI.class);
+
         WebServiceAPI.Transfer transfer = new WebServiceAPI.Transfer();
         transfer.From = from;
         transfer.To = to;
         transfer.Content = content;
-        Call<Void> call = webServiceAPI.TransferPOST(transfer);
+        Call<Void> call = webapi_external.TransferPOST(transfer);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

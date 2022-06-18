@@ -114,7 +114,7 @@ public class MassageActivity extends AppCompatActivity {
                 chatAPI.addMessageWithContact(gi.getContact(), text, new ChatAPI.responseCallbacks() {
                     @Override
                     public void onSuccess() {
-                        chatAPI.trasnfer(gi.getUsername(), gi.getContact(), text, new ChatAPI.responseCallbacks() {
+                        chatAPI.trasnfer(gi.getUsername(), gi.getContact(), text,gi.getContactServer(), new ChatAPI.responseCallbacks() {
                             @Override
                             public void onSuccess() {
                                 // TODO: right now, trasnfer works only in our server.
