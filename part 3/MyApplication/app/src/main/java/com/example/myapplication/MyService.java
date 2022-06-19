@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.myapplication.activities.ContectsActivity;
+import com.example.myapplication.activities.MassageActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -35,6 +37,20 @@ public class MyService extends FirebaseMessagingService {
 
            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
            notificationManager.notify(1,builder.build());
+           try
+           {
+               Intent brodcastIntent = new Intent();
+               brodcastIntent.setAction(MassageActivity.NOTIFY_ACTIVITY_ACTION);
+
+               sendBroadcast(brodcastIntent);
+               Intent brodcastIntent2 = new Intent();
+               brodcastIntent2.setAction(ContectsActivity.NOTIFY_ACTIVITY_ACTION);
+               sendBroadcast(brodcastIntent2);
+           }
+           catch (Exception e)
+           {
+               int hjjkreg=0;
+           }
        }
     }
     private  void createNotificationChannel()
