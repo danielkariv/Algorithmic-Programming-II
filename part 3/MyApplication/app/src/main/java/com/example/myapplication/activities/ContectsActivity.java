@@ -32,7 +32,8 @@ import com.example.myapplication.api.ChatAPI;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 public class ContectsActivity extends AppCompatActivity {
 
     private AppDB db;
@@ -40,6 +41,38 @@ public class ContectsActivity extends AppCompatActivity {
     private ContactDao contactDao;
 
     private ContactsViewModel viewModel;
+    public static final String NOTIFY_ACTIVITY_ACTION="notify_activity";
+    private BroadcastReceiver brodcastReciver;
+
+    @Override
+    protected  void onStart(){
+        super.onStart();
+        brodcastReciver = new BroadcastReceiver()
+        {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+
+                if (intent.getAction().equals(NOTIFY_ACTIVITY_ACTION))
+                {
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+
+
+        };
+        IntentFilter filter= new IntentFilter(NOTIFY_ACTIVITY_ACTION);
+        registerReceiver(brodcastReciver,filter);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        unregisterReceiver(brodcastReciver);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
