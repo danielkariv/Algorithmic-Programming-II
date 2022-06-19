@@ -35,6 +35,7 @@ public class SighUpActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TextView ev=findViewById(R.id.signuperror);
                 EditText usernameInput =findViewById(R.id.registerUsername);
                 EditText passwordInput =findViewById(R.id.registerPassword);
                 EditText confirmPasswordInput =findViewById(R.id.registerConfirmPassword);
@@ -52,16 +53,20 @@ public class SighUpActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         // successfully register new user so we move back to login form.
+                        ev.setText("");
                         finish();
+
                     }
 
                     @Override
                     public void onFailure() {
                         // TODO: report failed to login (UI element?).
+                        ev.setText("Error from server");
                     }
                 });
                 else{
                     // TODO: report invalid inputs (could be wrong password/confirm password, or empty inputs).
+                    ev.setText("Error in the form");
                 }
 
             }
