@@ -2,6 +2,7 @@ package com.example.myapplication.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,6 +29,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.adapters.ContactsListAdapter;
 import com.example.myapplication.api.ChatAPI;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -63,10 +66,27 @@ public class ContectsActivity extends AppCompatActivity {
         contactRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         viewModel.getContacts().observe(this, new Observer<List<Contact>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChanged(List<Contact> contacts) {
                 // reprint contacts in list.
                 // TODO: sort list by lastdate.
+                contacts.sort(new Comparator<Contact>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public int compare(Contact contact, Contact t1) {
+                        if (contact.lastdate == null || contact.lastdate == ""){
+                            return -1;
+                        }
+                        else if (t1.lastdate == null || t1.lastdate == ""){
+                            return 1;
+                        }
+                        LocalDateTime contactDate = LocalDateTime.parse(contact.lastdate);
+                        LocalDateTime t1Date = LocalDateTime.parse(t1.lastdate);
+                        boolean after = contactDate.isAfter(t1Date);
+                        return (after)? -1:1;
+                    }
+                });
                 adapter.setContacts(contacts);
             }
         });
