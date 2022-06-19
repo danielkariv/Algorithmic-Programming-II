@@ -276,6 +276,10 @@ public class ChatAPI {
     // TODO: sendInvitation and transfer aren't fully working yet, it only support our server, we need to create this ChatAPI with other server URL.
 
     public void sendInvitation(String from, String to, String server,final responseCallbacks callbacks){
+        // Note: because of android locahost<->10.0.2.2, we need to convert it to the right address.
+        if(server.equals("localhost:5123"))
+            server = "10.0.2.2:5123";
+
         Retrofit rf_external = new Retrofit.Builder()
                 .baseUrl("http://" + server)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -307,6 +311,10 @@ public class ChatAPI {
     }
 
     public void trasnfer (String from, String to, String content, String server,final responseCallbacks callbacks){
+        // Note: because of android locahost<->10.0.2.2, we need to convert it to the right address.
+        if(server.equals("localhost:5123"))
+            server = "10.0.2.2:5123";
+
         Retrofit rf_external = new Retrofit.Builder()
                 .baseUrl("http://" + server)
                 .addConverterFactory(GsonConverterFactory.create())
