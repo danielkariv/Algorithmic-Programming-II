@@ -1,5 +1,6 @@
 package com.example.myapplication.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,8 @@ import com.example.myapplication.R;
 import com.example.myapplication.adapters.ContactsListAdapter;
 import com.example.myapplication.adapters.MessagesListAdapter;
 import com.example.myapplication.api.ChatAPI;
-
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import java.util.List;
 
 public class MassageActivity extends AppCompatActivity {
@@ -36,7 +38,39 @@ public class MassageActivity extends AppCompatActivity {
     private MessageDao messageDao;
     private MessagesViewModel viewModel;
     private ChatAPI.responseMessagesCallbacks callbacks;
+    public static final String NOTIFY_ACTIVITY_ACTION="notify_activity";
+    private BroadcastReceiver brodcastReciver;
 
+    @Override
+    protected  void onStart(){
+        super.onStart();
+        brodcastReciver = new BroadcastReceiver()
+        {
+
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+
+                if (intent.getAction().equals(NOTIFY_ACTIVITY_ACTION))
+                {
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+
+
+        };
+        IntentFilter filter= new IntentFilter(NOTIFY_ACTIVITY_ACTION);
+        registerReceiver(brodcastReciver,filter);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        unregisterReceiver(brodcastReciver);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
